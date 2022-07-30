@@ -19,7 +19,7 @@ export function useAstarStep() {
     const [started, setStarted] = useState(false);
     const [foundPath, setFoundPath] = useState(false);
 
-    const startStep = (setGrid: any, grid: any, start: any) => {
+    const startStep = (setGrid: any, grid: any, start: any, end: any) => {
         q.enqueue(start)
         openSetHash = { [start.id]: true };
         let newGrid = cloneDeep(grid);
@@ -27,6 +27,7 @@ export function useAstarStep() {
         newGrid[start.y][start.x].gCost = 0;
         setGrid(newGrid);
         setStarted(true);
+        nextStep(setGrid, newGrid, start, end)
     }
 
     const nextStep = (setGrid: any, grid: any, start: IGridItem, end: IGridItem) => {

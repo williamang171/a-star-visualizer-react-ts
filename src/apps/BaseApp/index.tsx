@@ -66,8 +66,7 @@ function App() {
             nextStep(setGrid, grid, startGridItem, endGridItem)
             return;
         }
-        startStep(setGrid, gridWithNeighbors, startGridItem);
-        // nextStep(setGrid, gridWithNeighbors, startGridItem, endGridItem)
+        startStep(setGrid, gridWithNeighbors, startGridItem, endGridItem);
     }
 
     return (
