@@ -2,10 +2,10 @@ import {
     PriorityQueue,
 } from '@datastructures-js/priority-queue';
 import cloneDeep from "lodash/cloneDeep";
-import colors from "configs/colors"
+import colors from "apps/BaseApp/configs/colors"
 
-import { IGridItem } from 'interfaces/IGridItem';
-import { LooseObject } from 'interfaces/LooseObject';
+import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
+import { LooseObject } from 'apps/BaseApp/interfaces/LooseObject';
 import { hCost } from "./h-cost";
 import { reconstructPath } from './reconstruct-path';
 import { compare } from './compare';

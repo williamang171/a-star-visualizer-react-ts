@@ -1,8 +1,8 @@
-import { IGridItem } from "interfaces/IGridItem";
+import { IGridItem } from "apps/BaseApp/interfaces/IGridItem";
 import cloneDeep from "lodash/cloneDeep";
 
-import { TOTAL_COLS, TOTAL_ROWS } from "configs/grid-configs";
-import colors from "configs/colors";
+import { TOTAL_COLS, TOTAL_ROWS } from "apps/BaseApp/configs/grid-configs";
+import colors from "apps/BaseApp/configs/colors";
 
 export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>) => {
     const newGrid = cloneDeep(grid);

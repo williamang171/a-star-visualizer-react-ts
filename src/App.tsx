@@ -1,4 +1,4 @@
-import BaseApp from "containers/BaseApp";
+import BaseApp from "apps/BaseApp";
 
 function App() {
   return <BaseApp />

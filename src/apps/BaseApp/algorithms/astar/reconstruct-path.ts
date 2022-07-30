@@ -1,6 +1,6 @@
 
 import cloneDeep from "lodash/cloneDeep";
-import colors from "configs/colors"
+import colors from "apps/BaseApp/configs/colors"
 
 
 export const reconstructPath = (cameFrom: any, current: any, start: any, draw: any, grid: any) => {

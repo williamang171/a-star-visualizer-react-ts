@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { cloneDeep } from "lodash";
 
-import Grid from "components/Grid";
-import colors from "configs/colors";
-import { algorithm } from "algorithms/astar/astar";
-import { useAstarStep } from "algorithms/astar/use-astar-step"
-import { generateGrid } from "helpers/generate-grid";
-import { updateGridWithNeighbors } from "helpers/update-grid-with-neighbors";
-import { TOTAL_COLS, TOTAL_ROWS } from "configs/grid-configs";
-import { Title, Container, Button, ButtonsContainer } from "components/styled";
+import Grid from "apps/BaseApp/components/Grid";
+import colors from "apps/BaseApp/configs/colors";
+import { algorithm } from "apps/BaseApp/algorithms/astar/astar";
+import { useAstarStep } from "apps/BaseApp/algorithms/astar/use-astar-step"
+import { generateGrid } from "apps/BaseApp/helpers/generate-grid";
+import { updateGridWithNeighbors } from "apps/BaseApp/helpers/update-grid-with-neighbors";
+import { TOTAL_COLS, TOTAL_ROWS } from "apps/BaseApp/configs/grid-configs";
+import { Title, Container, Button, ButtonsContainer } from "apps/BaseApp/components/styled";
 
 const g = generateGrid(TOTAL_ROWS, TOTAL_COLS)
 
