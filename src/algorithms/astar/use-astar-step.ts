@@ -1,7 +1,8 @@
 import {
-    PriorityQueue,
+    PriorityQueue
 } from '@datastructures-js/priority-queue';
 import cloneDeep from "lodash/cloneDeep";
+import { useState } from "react";
 import colors from "configs/colors"
 
 import { IGridItem } from 'interfaces/IGridItem';
@@ -10,17 +11,31 @@ import { hCost } from "./h-cost";
 import { reconstructPath } from './reconstruct-path';
 import { compare } from './compare';
 
-export function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem) {
-    const q = new PriorityQueue<IGridItem>(compare);
-    q.enqueue(start)
-    let cameFrom: LooseObject = {}
-    let openSetHash = { [start.id]: true };
-    let newGrid = cloneDeep(grid);
-    newGrid[start.y][start.x].fCost = 0;
-    newGrid[start.y][start.x].gCost = 0;
+let openSetHash: LooseObject = {};
+const q = new PriorityQueue<IGridItem>(compare);
+let cameFrom: LooseObject = {}
 
-    while (!q.isEmpty()) {
+export function useAstarStep() {
+    const [started, setStarted] = useState(false);
+    const [foundPath, setFoundPath] = useState(false);
+
+    const startStep = (setGrid: any, grid: any, start: any) => {
+        q.enqueue(start)
+        openSetHash = { [start.id]: true };
+        let newGrid = cloneDeep(grid);
+        newGrid[start.y][start.x].fCost = 0;
+        newGrid[start.y][start.x].gCost = 0;
+        setGrid(newGrid);
+        setStarted(true);
+    }
+
+    const nextStep = (setGrid: any, grid: any, start: IGridItem, end: IGridItem) => {
+        if (foundPath) {
+            return;
+        }
+        const newGrid = cloneDeep(grid);
         const current = q.dequeue();
+        console.log(`Processing ${current.id} with fCost ${current.fCost}`)
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];
@@ -29,6 +44,10 @@ export function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IG
             // Path found...
             reconstructPath(cameFrom, end, start, setGrid, newGrid);
             console.log("path found!")
+            setFoundPath(true);
+            openSetHash = {};
+            q.clear()
+            cameFrom = {};
             return true;
         }
 
@@ -49,13 +68,16 @@ export function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IG
                 }
             }
         })
-
         setGrid(newGrid);
-
         if (current.id !== start.id) {
             newGrid[current.y][current.x].color = colors.CLOSED;
         }
-
+        setGrid(newGrid);
     }
-    return false;
+
+    return {
+        started,
+        startStep,
+        nextStep
+    };
 }
