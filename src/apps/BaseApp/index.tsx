@@ -8,7 +8,7 @@ import { useAstarStep } from "apps/BaseApp/algorithms/astar/use-astar-step"
 import { generateGrid } from "apps/BaseApp/helpers/generate-grid";
 import { updateGridWithNeighbors } from "apps/BaseApp/helpers/update-grid-with-neighbors";
 import { TOTAL_COLS, TOTAL_ROWS } from "apps/BaseApp/configs/grid-configs";
-import { Title, Container, Button, ButtonsContainer } from "apps/BaseApp/components/styled";
+import { Title, Container, Button, ButtonsContainer, AppContainer } from "apps/BaseApp/components/styled";
 
 const g = generateGrid(TOTAL_ROWS, TOTAL_COLS)
 
@@ -70,7 +70,7 @@ function App() {
     }
 
     return (
-        <div>
+        <AppContainer>
             <Container>
                 <Title>A* Pathfinding</Title>
             </Container>
@@ -86,7 +86,7 @@ function App() {
                     <Button type="button" onClick={clearGrid}>Reset</Button>
                 </ButtonsContainer>
             </Container>
-        </div>
+        </AppContainer>
 
     );
 }

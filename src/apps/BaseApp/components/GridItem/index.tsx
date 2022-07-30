@@ -1,3 +1,4 @@
+import colors from 'apps/BaseApp/configs/colors';
 import React, { useState } from 'react'
 import styled from "styled-components";
 
@@ -5,11 +6,10 @@ const Wrapper = styled.span`
     display: inline-block;
     width: 100px;
     height: 100px;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     background: ${(props) => props.color ? props.color : "white"};
     position: relative;
     box-sizing: border-box;
-    
 `;
 
 const Coords = styled.div`
@@ -27,22 +27,49 @@ const FCostContainer = styled.div`
     font-size: 2em;
 `;
 
+const GridItemContentContainer = styled.div`
+    position: absolute;
+`;
+
 const CostContainer = styled.div`
     font-size: 1.5em;
 `;
 
-interface CostsProps {
+const LetterContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3em;
+`;
+
+interface GridItemContentProps {
     fCost: number;
     gCost: number;
     hCost: number;
+    hideCost: boolean;
+    color: string;
 }
 
-const CostsContainer = styled.div`
-    position: absolute;
-`;
+const GridItemContent = (props: GridItemContentProps) => {
+    if (props.color === colors.START) {
+        return <LetterContainer>
+            <div>
+                A
+            </div>
+        </LetterContainer>
 
-const Costs = (props: CostsProps) => {
-    return <CostsContainer>
+    }
+
+    if (props.color === colors.END) {
+        return <LetterContainer>
+            B
+        </LetterContainer>
+    }
+
+    return <GridItemContentContainer>
         <div style={{ display: "flex", justifyContent: "space-around", width: "100px" }} >
             <CostContainer>
                 {props.gCost === Infinity ? " " : props.gCost}
@@ -54,7 +81,7 @@ const Costs = (props: CostsProps) => {
         <FCostContainer>
             {props.fCost === Infinity ? " " : props.fCost}
         </FCostContainer>
-    </CostsContainer>
+    </GridItemContentContainer>
 }
 
 interface Props {
@@ -76,7 +103,10 @@ export default function Node(props: Props) {
 
     return (
         <Wrapper color={props.color} onClick={handleClick}>
-            <Costs gCost={props.gCost}
+            <GridItemContent
+                hideCost={props.color === colors.START || props.color === colors.END}
+                color={props.color}
+                gCost={props.gCost}
                 fCost={props.fCost}
                 hCost={props.hCost}
             />

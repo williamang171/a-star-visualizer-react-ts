@@ -23,3 +23,7 @@ export const Title = styled.div`
   padding: 20px;
   font-size: 1.5em;
 `;
+
+export const AppContainer = styled.div`
+  min-width: 900px;
+`;
