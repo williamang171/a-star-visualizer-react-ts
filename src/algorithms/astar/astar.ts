@@ -1,0 +1,72 @@
+import {
+    PriorityQueue,
+    ICompare
+} from '@datastructures-js/priority-queue';
+import cloneDeep from "lodash/cloneDeep";
+import colors from "configs/colors"
+
+import { IGridItem } from 'interfaces/IGridItem';
+import { LooseObject } from 'interfaces/LooseObject';
+import { hCost } from "./h-cost";
+import { reconstructPath } from './reconstruct-path';
+
+const compare: ICompare<IGridItem> = (a: IGridItem, b: IGridItem) => {
+    // Prioritize GridItem with lower fCost
+    if (a.fCost < b.fCost) {
+        return -1;
+    }
+    return 1;
+};
+
+export function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem) {
+    const q = new PriorityQueue<IGridItem>(compare);
+    q.enqueue(start)
+    let cameFrom: LooseObject = {}
+    let openSetHash = { [start.id]: true };
+    let newGrid = cloneDeep(grid);
+    newGrid[start.y][start.x].fCost = 0;
+    newGrid[start.y][start.x].gCost = 0;
+
+    while (!q.isEmpty()) {
+        const current = q.dequeue();
+        // console.log(`Processing ${current.id} with fCost ${current.fCost}`)
+        const currentX = current.x;
+        const currentY = current.y;
+        delete openSetHash[current.id];
+
+        if (current.x === end.x && current.y === end.y) {
+            // Path found...
+            reconstructPath(cameFrom, end, start, setGrid, newGrid);
+            console.log("path found!")
+            return true;
+        }
+
+        current.neighbors.forEach((n) => {
+            const nx = n.x;
+            const ny = n.y;
+            const tempGScore = newGrid[currentY][currentX].gCost + 1
+            const nGCost = newGrid[ny][nx].gCost;
+            if (tempGScore < nGCost) {
+                cameFrom[n.id] = current.id;
+                newGrid[ny][nx].gCost = tempGScore;
+                newGrid[ny][nx].fCost = tempGScore + hCost(n, end)
+                newGrid[ny][nx].hCost = hCost(n, end)
+                if (!openSetHash[n.id]) {
+                    q.enqueue(newGrid[ny][nx]);
+                    openSetHash[n.id] = true;
+                    newGrid[ny][nx].color = colors.OPEN
+                }
+            }
+        })
+
+        // draw()
+        setGrid(newGrid);
+
+        if (current.id !== start.id) {
+            newGrid[current.y][current.x].color = colors.CLOSED;
+        }
+
+        // console.log(q.toArray()) 
+    }
+    return false;
+}

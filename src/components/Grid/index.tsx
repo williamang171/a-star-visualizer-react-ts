@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react'
+import { IGridItem } from 'interfaces/IGridItem';
 import Node from "../GridItem";
+import styled from 'styled-components';
 
 interface Props {
-    grid: Array<Array<any>>,
+    grid: Array<Array<IGridItem>>,
     gridItemOnClick: (x: number, y: number) => void
 }
+
+const Row = styled.div`
+    height: 100px;
+`;
 
 export default function Grid(props: Props) {
     const { grid = [] } = props;
@@ -14,11 +20,13 @@ export default function Grid(props: Props) {
         for (let i = 0; i < grid.length; i++) {
             let nodes = [];
             for (let j = 0; j < grid[i].length; j++) {
-                nodes.push(<Node x={i} y={j} key={grid[i][j].id} color={grid[i][j].color} onClick={props.gridItemOnClick} fCost={grid[i][j].fCost} />);
+                const gridItem = grid[i][j];
+                const { color, fCost, gCost, hCost, id, x, y } = gridItem;
+                nodes.push(<Node x={x} y={y} key={id} color={color} onClick={props.gridItemOnClick} fCost={fCost} gCost={gCost} hCost={hCost} />);
             }
-            const row = <div key={`row-${i}`}>
+            const row = <Row key={`row-${i}`}>
                 {nodes}
-            </div>
+            </Row>
             rows.push(row);
         }
         return rows;
