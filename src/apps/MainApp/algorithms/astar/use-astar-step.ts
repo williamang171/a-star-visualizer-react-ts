@@ -43,7 +43,7 @@ export function useAstarStep() {
 
         if (current.x === end.x && current.y === end.y) {
             // Path found...
-            reconstructPath(cameFrom, end, start, setGrid, newGrid);
+            reconstructPath(cameFrom, end, start, setGrid, newGrid, () => { });
             console.log("path found!")
             setFoundPath(true);
             openSetHash = {};

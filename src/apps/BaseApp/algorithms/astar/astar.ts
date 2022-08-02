@@ -2,7 +2,7 @@ import {
     PriorityQueue,
 } from '@datastructures-js/priority-queue';
 import cloneDeep from "lodash/cloneDeep";
-import colors from "apps/BaseApp/configs/colors"
+import colors from "theme/grid-item-colors";
 
 import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
 import { LooseObject } from 'apps/BaseApp/interfaces/LooseObject';

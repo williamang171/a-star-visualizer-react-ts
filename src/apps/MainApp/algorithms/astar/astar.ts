@@ -1,8 +1,7 @@
 import {
-    PriorityQueue
+    PriorityQueue,
 } from '@datastructures-js/priority-queue';
 import cloneDeep from "lodash/cloneDeep";
-import { useState } from "react";
 import colors from "theme/grid-item-colors";
 
 import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
@@ -10,45 +9,28 @@ import { LooseObject } from 'apps/BaseApp/interfaces/LooseObject';
 import { hCost } from "./h-cost";
 import { reconstructPath } from './reconstruct-path';
 import { compare } from './compare';
+import { sleep } from 'helpers/sleep';
 
-let openSetHash: LooseObject = {};
-const q = new PriorityQueue<IGridItem>(compare);
-let cameFrom: LooseObject = {}
+export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: string, drawPath: any) {
+    const q = new PriorityQueue<IGridItem>(compare);
+    q.enqueue(start)
+    let cameFrom: LooseObject = {}
+    let openSetHash = { [start.id]: true };
+    let newGrid = cloneDeep(grid);
+    newGrid[start.y][start.x].fCost = 0;
+    newGrid[start.y][start.x].gCost = 0;
 
-export function useAstarStep() {
-    const [started, setStarted] = useState(false);
-    const [foundPath, setFoundPath] = useState(false);
-
-    const startStep = (setGrid: any, grid: any, start: any, end: any) => {
-        q.enqueue(start)
-        openSetHash = { [start.id]: true };
-        let newGrid = cloneDeep(grid);
-        newGrid[start.y][start.x].fCost = 0;
-        newGrid[start.y][start.x].gCost = 0;
-        setGrid(newGrid);
-        setStarted(true);
-        nextStep(setGrid, newGrid, start, end)
-    }
-
-    const nextStep = (setGrid: any, grid: any, start: IGridItem, end: IGridItem) => {
-        if (foundPath) {
-            return;
-        }
-        const newGrid = cloneDeep(grid);
+    while (!q.isEmpty()) {
         const current = q.dequeue();
-        console.log(`Processing ${current.id} with fCost ${current.fCost}`)
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];
 
         if (current.x === end.x && current.y === end.y) {
             // Path found...
-            reconstructPath(cameFrom, end, start, setGrid, newGrid);
             console.log("path found!")
-            setFoundPath(true);
-            openSetHash = {};
-            q.clear()
-            cameFrom = {};
+            reconstructPath(cameFrom, end, start, setGrid, newGrid, drawPath);
+
             return true;
         }
 
@@ -69,16 +51,24 @@ export function useAstarStep() {
                 }
             }
         })
-        setGrid(newGrid);
+
         if (current.id !== start.id) {
             newGrid[current.y][current.x].color = colors.CLOSED;
         }
-        setGrid(newGrid);
-    }
 
-    return {
-        started,
-        startStep,
-        nextStep
-    };
+        if (speed === "fast") {
+            setGrid(newGrid);
+            await sleep(10);
+        }
+        if (speed === "normal") {
+            setGrid(newGrid);
+            await sleep(50);
+        }
+        if (speed === "slow") {
+            setGrid(newGrid);
+            await sleep(500);
+        }
+
+    }
+    return false;
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { cloneDeep } from "lodash";
 
 import Grid from "apps/BaseApp/components/Grid";
-import colors from "apps/BaseApp/configs/colors";
+import colors from "theme/grid-item-colors";
 import { algorithm } from "apps/BaseApp/algorithms/astar/astar";
 import { useAstarStep } from "apps/BaseApp/algorithms/astar/use-astar-step"
 import { generateGrid } from "apps/BaseApp/helpers/generate-grid";

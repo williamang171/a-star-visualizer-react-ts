@@ -1,10 +1,9 @@
 import { IGridItem } from "apps/BaseApp/interfaces/IGridItem";
 import cloneDeep from "lodash/cloneDeep";
 
-import { TOTAL_COLS, TOTAL_ROWS } from "apps/BaseApp/configs/grid-configs";
 import colors from "theme/grid-item-colors";
 
-export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>) => {
+export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number) => {
     const newGrid = cloneDeep(grid);
     newGrid.forEach((row) => {
         row.forEach((item) => {
@@ -12,7 +11,7 @@ export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>) => {
             const { x, y } = item;
 
             // Down
-            if (y + 1 < TOTAL_ROWS && grid[y + 1][x].color !== colors.BARRIER) {
+            if (y + 1 < totalRows && grid[y + 1][x].color !== colors.BARRIER) {
                 n.push(grid[y + 1][x])
             }
 
@@ -22,7 +21,7 @@ export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>) => {
             }
 
             // Right
-            if (x + 1 < TOTAL_COLS && grid[y][x + 1].color !== colors.BARRIER) {
+            if (x + 1 < totalCols && grid[y][x + 1].color !== colors.BARRIER) {
                 n.push(grid[y][x + 1])
             }
 

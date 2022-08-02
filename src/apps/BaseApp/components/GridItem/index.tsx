@@ -1,4 +1,4 @@
-import colors from 'apps/BaseApp/configs/colors';
+import colors from "theme/grid-item-colors";
 import React, { useState } from 'react'
 import styled from "styled-components";
 
