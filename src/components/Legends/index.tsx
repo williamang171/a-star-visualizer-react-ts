@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
-import { colorsList } from "theme/grid-item-colors";
+import gridItemColors, { colorsList } from "theme/grid-item-colors";
 
 const ColorBox = styled.span`
     background: ${props => props.color || "#fff"};
@@ -26,6 +26,9 @@ const LegendBox = styled.div`
 export default function Legends() {
     return <Container>
         {colorsList.map((c) => {
+            if (c.color === gridItemColors.BLANK) {
+                return null;
+            }
             return <LegendBox key={c.text}>
                 <ColorBox color={c.color} />
                 <span>{c.text}</span>

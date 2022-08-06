@@ -74,9 +74,6 @@ export default function MainApp() {
             // svg.select(".square.row-2.col-2").attr("fill", "blue")
             // svg.select(".square.row-4.col-12").attr("fill", "green")
 
-
-
-
             rows.on('click', function (d, i) {
                 const startIsEmpty = d3.select(".square[start='true']").empty();
                 if (startIsEmpty) {
