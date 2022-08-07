@@ -28,6 +28,7 @@ const AppContainer = styled.div`
 export default function MainApp() {
     const [speed, setSpeed] = useState(SPEED.FAST);
     const [data, setData] = useState(initialData);
+    const [showCost, setShowCost] = useState(false);
     const [triggerRunPath, setTriggerRunPath] = useState(false);
 
     const findPath = () => {
@@ -92,9 +93,9 @@ export default function MainApp() {
     return (
         <AppContainer>
             <div>
-                <Actions findPath={findPathTrigger} reset={reset} speed={speed} setSpeed={setSpeed} />
+                <Actions showCost={showCost} setShowCost={setShowCost} findPath={findPathTrigger} reset={reset} speed={speed} setSpeed={setSpeed} />
                 <Legends />
-                <Grid data={data} setData={setData} width={width} height={height} />
+                <Grid showCost={showCost} data={data} setData={setData} width={width} height={height} />
             </div>
         </AppContainer>
     )

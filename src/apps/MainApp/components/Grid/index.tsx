@@ -6,6 +6,7 @@ import gridItemColors from "theme/grid-item-colors";
 import { IGridItem } from "interfaces/IGridItem";
 
 import { useAddDragHandler } from "./useAddDragHandler";
+import CostText from "apps/MainApp/components/CostText";
 
 const Container = styled.div`
     display: flex;
@@ -17,9 +18,10 @@ type GridProps = {
     height: number;
     data: IGridItem[];
     setData: (data: any) => void;
+    showCost: boolean
 };
 
-export const Grid = ({ width, height, data, setData }: GridProps) => {
+export const Grid = ({ width, height, data, setData, showCost }: GridProps) => {
     const [isMouseDown, setIsMouseDown] = useState(false);
     const { dragGridItem } = useAddDragHandler({ data, setData })
 
@@ -34,7 +36,10 @@ export const Grid = ({ width, height, data, setData }: GridProps) => {
             if (d.x === parseInt(target.dataset.row) && d.y === parseInt(target.dataset.col)) {
                 return {
                     ...d,
-                    color: fillColor
+                    color: fillColor,
+                    fCost: Infinity,
+                    gCost: Infinity,
+                    hCost: Infinity
                 }
             }
             return d;
@@ -68,20 +73,22 @@ export const Grid = ({ width, height, data, setData }: GridProps) => {
     // Build the rectangles
     const allShapes = data.map((d, i) => {
         return (
-            <rect
-                data-row={d.x}
-                data-col={d.y}
-                key={i}
-                x={d.x * SQUARE_SIZE}
-                y={d.y * SQUARE_SIZE}
-                width={SQUARE_SIZE}
-                height={SQUARE_SIZE}
-                opacity={1}
-                fill={d.color}
-                stroke={"#ccc"}
-                onMouseDown={handleMousedown}
-                onMouseOver={handleMouseOver}
-            />
+            <g key={i} >
+                <rect
+                    data-row={d.x}
+                    data-col={d.y}
+                    x={d.x * SQUARE_SIZE}
+                    y={d.y * SQUARE_SIZE}
+                    width={SQUARE_SIZE}
+                    height={SQUARE_SIZE}
+                    opacity={1}
+                    fill={d.color}
+                    stroke={"#ccc"}
+                    onMouseDown={handleMousedown}
+                    onMouseOver={handleMouseOver}
+                />
+                <CostText showCost={showCost} d={d} />
+            </g>
         );
     });
 
