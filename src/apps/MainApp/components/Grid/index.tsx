@@ -25,7 +25,8 @@ export const Grid = ({ width, height, data, setData }: GridProps) => {
 
     const updateGridItem = (e: any) => {
         const target = e.target;
-        const fillColor = gridItemColors.BARRIER;
+        const currentIsBarrier = target.getAttribute('fill') === gridItemColors.BARRIER;
+        const fillColor = currentIsBarrier ? gridItemColors.BLANK : gridItemColors.BARRIER;
         const newData = data.map((d) => {
             if (d.color === gridItemColors.START || d.color === gridItemColors.END) {
                 return d;
@@ -57,10 +58,6 @@ export const Grid = ({ width, height, data, setData }: GridProps) => {
         updateGridItem(e);
     }
 
-    const handleMouseClick = (e: any) => {
-        updateGridItem(e);
-    }
-
     const handleMouseOver = (e: any,) => {
         if (!isMouseDown) {
             return;
@@ -72,7 +69,6 @@ export const Grid = ({ width, height, data, setData }: GridProps) => {
     const allShapes = data.map((d, i) => {
         return (
             <rect
-                onClick={handleMouseClick}
                 data-row={d.x}
                 data-col={d.y}
                 key={i}
