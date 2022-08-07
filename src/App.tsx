@@ -6,8 +6,8 @@ import MainApp from "apps/MainApp";
 function App() {
   return <>
     <CssBaseline />
-    <MVPApp />
-    {/* <MainApp /> */}
+    {/* <MVPApp /> */}
+    <MainApp />
   </>
 }
 
