@@ -21,8 +21,7 @@ const AppContainer = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 100vh;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
 `;
 
 export default function MainApp() {

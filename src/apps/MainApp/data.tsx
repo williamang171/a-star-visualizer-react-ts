@@ -3,7 +3,7 @@ import { IGridItem } from 'interfaces/IGridItem';
 
 export const ROWS = 20;
 export const COLS = 20;
-export const SQUARE_SIZE = 30;
+export const SQUARE_SIZE = 28;
 
 const startX = 2;
 const startY = 2;

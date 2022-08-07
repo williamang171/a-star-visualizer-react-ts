@@ -1,14 +1,24 @@
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider, createTheme, Box } from "@mui/material";
+import { blue } from "@mui/material/colors";
 
 import MVPApp from "apps/MVPApp";
 import MainApp from "apps/MainApp";
+import Navbar from "components/Navbar";
+
+const theme = createTheme({
+  palette: {
+    primary: blue,
+  },
+});
 
 function App() {
-  return <>
+  return <ThemeProvider theme={theme}>
     <CssBaseline />
+    <Navbar />
+    <Box sx={{ mb: 2 }} />
     {/* <MVPApp /> */}
     <MainApp />
-  </>
+  </ThemeProvider>
 }
 
 export default App;
