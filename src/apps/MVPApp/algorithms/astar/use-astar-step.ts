@@ -5,11 +5,13 @@ import cloneDeep from "lodash/cloneDeep";
 import { useState } from "react";
 import colors from "theme/grid-item-colors";
 
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
-import { LooseObject } from 'apps/BaseApp/interfaces/LooseObject';
-import { hCost } from "./h-cost";
+import { IGridItem } from 'interfaces/IGridItem';
+import { LooseObject } from 'interfaces/LooseObject';
+
 import { reconstructPath } from './reconstruct-path';
-import { compare } from './compare';
+import { compare } from 'algorithms/astar/compare';
+import { hCost } from 'algorithms/astar/h-cost';
+
 
 let openSetHash: LooseObject = {};
 const q = new PriorityQueue<IGridItem>(compare);

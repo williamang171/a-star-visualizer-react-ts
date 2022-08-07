@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { cloneDeep } from "lodash";
 
-import Grid from "apps/BaseApp/components/Grid";
+import Grid from "apps/MVPApp/components/Grid";
 import colors from "theme/grid-item-colors";
-import { algorithm } from "apps/BaseApp/algorithms/astar/astar";
-import { useAstarStep } from "apps/BaseApp/algorithms/astar/use-astar-step"
-import { generateGrid } from "apps/BaseApp/helpers/generate-grid";
-import { updateGridWithNeighbors } from "apps/BaseApp/helpers/update-grid-with-neighbors";
-import { TOTAL_COLS, TOTAL_ROWS } from "apps/BaseApp/configs/grid-configs";
-import { Title, Container, Button, ButtonsContainer, AppContainer } from "apps/BaseApp/components/styled";
+import { algorithm } from "apps/MVPApp/algorithms/astar/astar";
+import { useAstarStep } from "apps/MVPApp/algorithms/astar/use-astar-step"
+import { generateGrid } from "apps/MVPApp/helpers/generate-grid";
+import { updateGridWithNeighbors } from "helpers/update-grid-with-neighbors";
+import { TOTAL_COLS, TOTAL_ROWS } from "apps/MVPApp/configs/grid-configs";
+import { Title, Container, Button, ButtonsContainer, AppContainer } from "apps/MVPApp/components/styled";
 
 const g = generateGrid(TOTAL_ROWS, TOTAL_COLS)
 
@@ -46,7 +46,7 @@ function App() {
             alert("Please select a start node and an end node");
             return;
         }
-        const gridWithNeighbors = updateGridWithNeighbors(grid);
+        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS);
         const startGridItem = gridWithNeighbors[startGridItemIndex[0]][startGridItemIndex[1]];
         const endGridItem = gridWithNeighbors[endGridItemIndex[0]][endGridItemIndex[1]];
         algorithm(setGrid, gridWithNeighbors, startGridItem, endGridItem)
@@ -59,7 +59,7 @@ function App() {
     }
 
     const onNext = () => {
-        const gridWithNeighbors = updateGridWithNeighbors(grid);
+        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS);
         const startGridItem = gridWithNeighbors[startGridItemIndex[0]][startGridItemIndex[1]];
         const endGridItem = gridWithNeighbors[endGridItemIndex[0]][endGridItemIndex[1]];
         if (started) {

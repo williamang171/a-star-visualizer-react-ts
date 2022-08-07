@@ -1,4 +1,4 @@
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
+import { IGridItem } from 'interfaces/IGridItem';
 
 export const hCost = (p1: IGridItem, p2: IGridItem) => {
     const x1 = p1.x;

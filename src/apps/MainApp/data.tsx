@@ -1,5 +1,5 @@
 import gridItemColors from "theme/grid-item-colors";
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
+import { IGridItem } from 'interfaces/IGridItem';
 
 export const ROWS = 20;
 export const COLS = 20;
@@ -7,7 +7,7 @@ export const SQUARE_SIZE = 30;
 
 const startX = 2;
 const startY = 2;
-const endX = 12;
+const endX = 17;
 const endY = 17;
 
 let data: IGridItem[] = [];

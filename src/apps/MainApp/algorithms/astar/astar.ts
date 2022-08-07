@@ -4,14 +4,15 @@ import {
 import cloneDeep from "lodash/cloneDeep";
 import colors from "theme/grid-item-colors";
 
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
-import { LooseObject } from 'apps/BaseApp/interfaces/LooseObject';
-import { hCost } from "./h-cost";
+import { SPEED, SPEED_AWAIT } from 'configs/speed';
+import { IGridItem } from 'interfaces/IGridItem';
+import { LooseObject } from 'interfaces/LooseObject';
+import { hCost } from 'algorithms/astar/h-cost';
 import { reconstructPath } from './reconstruct-path';
-import { compare } from './compare';
+import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
 
-export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: string, drawPath: any) {
+export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
     let cameFrom: LooseObject = {}
@@ -28,9 +29,7 @@ export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, sta
 
         if (current.x === end.x && current.y === end.y) {
             // Path found...
-            console.log("path found!")
-            reconstructPath(cameFrom, end, start, setGrid, newGrid, drawPath);
-
+            reconstructPath(cameFrom, end, start, setGrid, newGrid, speed);
             return true;
         }
 
@@ -56,19 +55,10 @@ export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, sta
             newGrid[current.y][current.x].color = colors.CLOSED;
         }
 
-        if (speed === "fast") {
+        if (speed !== SPEED.IMMEDIATE) {
             setGrid(newGrid);
-            await sleep(10);
+            await sleep(SPEED_AWAIT[speed])
         }
-        if (speed === "normal") {
-            setGrid(newGrid);
-            await sleep(50);
-        }
-        if (speed === "slow") {
-            setGrid(newGrid);
-            await sleep(500);
-        }
-
     }
     return false;
 }

@@ -1,4 +1,4 @@
-import { IGridItem } from "apps/BaseApp/interfaces/IGridItem";
+import { IGridItem } from "interfaces/IGridItem";
 
 export const generateGrid = (rows: number, cols: number) => {
     let grid = [];

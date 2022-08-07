@@ -1,4 +1,4 @@
-import { LooseObject } from "apps/BaseApp/interfaces/LooseObject";
+import { LooseObject } from "interfaces/LooseObject";
 
 export const START = '#42a5f5'; // dark blue
 export const CLOSED = '#d32f2f'; // red

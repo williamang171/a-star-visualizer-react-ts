@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
+import { IGridItem } from 'interfaces/IGridItem';
 import Node from "../GridItem";
 import styled from 'styled-components';
 

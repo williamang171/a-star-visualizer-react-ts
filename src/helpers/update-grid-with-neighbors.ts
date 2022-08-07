@@ -1,4 +1,4 @@
-import { IGridItem } from "apps/BaseApp/interfaces/IGridItem";
+import { IGridItem } from "interfaces/IGridItem";
 import cloneDeep from "lodash/cloneDeep";
 
 import colors from "theme/grid-item-colors";

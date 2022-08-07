@@ -2,7 +2,7 @@ import {
     ICompare
 } from '@datastructures-js/priority-queue';
 
-import { IGridItem } from 'apps/BaseApp/interfaces/IGridItem';
+import { IGridItem } from 'interfaces/IGridItem';
 
 export const compare: ICompare<IGridItem> = (a: IGridItem, b: IGridItem) => {
     // Prioritize GridItem with lower fCost

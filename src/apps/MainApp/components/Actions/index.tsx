@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
 import { Button, Select, FormControl, InputLabel, MenuItem, Stack } from "@mui/material";
+import { SPEED } from "configs/speed";
+
 
 interface Props {
     findPath: () => void,
     reset: () => void,
-    speed: string,
-    setSpeed: (speed: string) => void
+    speed: SPEED,
+    setSpeed: (speed: SPEED) => void
 }
-
 
 export default function Actions(props: Props) {
     const { findPath, reset, speed, setSpeed } = props;
@@ -17,7 +17,6 @@ export default function Actions(props: Props) {
 
     return (
         <Stack direction="row" spacing={1} sx={{ mb: 2 }} >
-
             <Button variant="contained" onClick={findPath} type="button">
                 Find Path
             </Button>
@@ -33,10 +32,10 @@ export default function Actions(props: Props) {
                     label="Speed"
                     onChange={handleChange}
                 >
-                    <MenuItem value={"immediate"}>Immediate</MenuItem>
-                    <MenuItem value={"fast"}>Fast</MenuItem>
-                    <MenuItem value={"normal"}>Normal</MenuItem>
-                    <MenuItem value={"slow"}>Slow</MenuItem>
+                    <MenuItem value={SPEED.IMMEDIATE}>Immediate</MenuItem>
+                    <MenuItem value={SPEED.FAST}>Fast</MenuItem>
+                    <MenuItem value={SPEED.NORMAL}>Normal</MenuItem>
+                    <MenuItem value={SPEED.SLOW}>Slow</MenuItem>
                 </Select>
             </FormControl>
 
