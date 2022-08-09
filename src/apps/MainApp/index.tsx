@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from "styled-components";
-import _ from "lodash";
+import flattenDeep from "lodash/flattenDeep";
 
 import Legends from 'components/Legends';
 import { IGridItem } from 'interfaces/IGridItem';
-
-import { algorithm } from "./algorithms/astar/astar";
+import gridItemColors from 'theme/grid-item-colors';
 import { updateGridWithNeighbors } from 'helpers/update-grid-with-neighbors';
+import { updateGridWithNeighbors as updateGridWithNeighborsHexagon } from 'helpers/update-grid-with-neighbors-hexagon';
+import { astar } from "algorithms/astar";
+
 import Actions from './components/Actions';
 import Grid from "./components/Grid";
-import { data as initialData, SQUARE_SIZE, ROWS, COLS } from "./data";
-import gridItemColors from 'theme/grid-item-colors';
-import { SPEED } from 'configs/speed';
+import { data as initialData, ROWS, COLS } from "data";
 
-const width = SQUARE_SIZE * ROWS + 2;
-const height = SQUARE_SIZE * COLS + 2;
+import useAppState from './hooks/useAppState';
+import GRID_TYPE from 'constants/grid-type';
 
 const AppContainer = styled.div` 
     display: flex;
@@ -25,10 +25,15 @@ const AppContainer = styled.div`
 `;
 
 export default function MainApp() {
-    const [speed, setSpeed] = useState(SPEED.FAST);
-    const [data, setData] = useState(initialData);
-    const [showCost, setShowCost] = useState(false);
-    const [triggerRunPath, setTriggerRunPath] = useState(false);
+    const { speed,
+        setSpeed,
+        showCost,
+        setShowCost,
+        gridType,
+        setGridType,
+        triggerRunPath, setTriggerRunPath,
+        data,
+        setData } = useAppState();
 
     const findPath = () => {
         // Transform grid[] to grid[][] 
@@ -39,32 +44,31 @@ export default function MainApp() {
             }
             grid[d.y].push(d)
         })
-        const gridWithNeighbors = updateGridWithNeighbors(grid, ROWS, COLS);
+
+        // Update grid with neighbors
+        const gridWithNeighbors = gridType === GRID_TYPE.HEXAGON ? updateGridWithNeighborsHexagon(grid, ROWS, COLS) : updateGridWithNeighbors(grid, ROWS, COLS);
+
+        // Identify start and end node
         const startNode = data.find((d) => d.color === gridItemColors.START);
         const endNode = data.find((d) => d.color === gridItemColors.END);
-        if (startNode && endNode) {
-            const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
-            const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
-            const pathFound = algorithm(redraw, gridWithNeighbors, startGridItem, endGridItem, speed)
-        }
-        else {
-            console.log("startNode and endNode not available!");
-        }
-    }
 
-    useEffect(() => {
-        if (triggerRunPath === true) {
-            setTriggerRunPath(false);
-            findPath()
+        if (!startNode || !endNode) {
+            console.log("startNode / endNode not available!");
+            return;
         }
-    }, [triggerRunPath, data])
+
+        const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
+        const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
+        // Start finding the path
+        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed)
+    }
 
     const reset = () => {
         setData(initialData);
     }
 
     const findPathTrigger = () => {
-        const toClear = [gridItemColors.OPEN, gridItemColors.CLOSED, gridItemColors.PATH];
+        const toClear: string[] = [gridItemColors.OPEN, gridItemColors.CLOSED, gridItemColors.PATH];
         const newData = data.map((d) => {
             const newD = {
                 ...d,
@@ -85,16 +89,30 @@ export default function MainApp() {
     }
 
     const redraw = (grid: Array<Array<IGridItem>>) => {
-        const flatGrid = _.flattenDeep(grid);
+        const flatGrid = flattenDeep(grid);
         setData(flatGrid)
     }
+
+    useEffect(() => {
+        if (triggerRunPath === true) {
+            setTriggerRunPath(false);
+            findPath()
+        }
+    }, [triggerRunPath, data])
 
     return (
         <AppContainer>
             <div>
-                <Actions showCost={showCost} setShowCost={setShowCost} findPath={findPathTrigger} reset={reset} speed={speed} setSpeed={setSpeed} />
+                <Actions
+                    showCost={showCost}
+                    setShowCost={setShowCost}
+                    findPath={findPathTrigger}
+                    reset={reset} speed={speed}
+                    setSpeed={setSpeed}
+                    gridType={gridType}
+                    setGridType={setGridType} />
                 <Legends />
-                <Grid showCost={showCost} data={data} setData={setData} width={width} height={height} />
+                <Grid showCost={showCost} data={data} setData={setData} gridType={gridType} />
             </div>
         </AppContainer>
     )

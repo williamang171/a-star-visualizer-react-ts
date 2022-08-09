@@ -1,4 +1,4 @@
-import { SQUARE_SIZE } from "apps/MainApp/data";
+import { SQUARE_SIZE } from "data";
 import gridItemColors from "theme/grid-item-colors";
 import { IGridItem } from "interfaces/IGridItem";
 

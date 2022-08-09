@@ -20,10 +20,9 @@ const initialDragGridItem = {
 interface Props {
     data: IGridItem[];
     setData: (data: any) => void;
-    points: [number, number][]
 }
 
-export function useAddDragHandler({ data, setData, points }: Props) {
+export function useAddDragHandler({ data, setData }: Props) {
     const [dragGridItem, setDragGridItem] = useState(initialDragGridItem)
 
     const addHandleDrag = (startGridItem: IGridItem, endGridItem: IGridItem) => {
@@ -38,15 +37,10 @@ export function useAddDragHandler({ data, setData, points }: Props) {
         }).on('end', function (event) {
             let closestNode: IGridItem | null = null;
             let currentClosestRange = Infinity;
-            console.log(`Event x: ${event.x}`);
-            console.log(`Event y: ${event.y}`);
-
-            points.forEach((d, i) => {
-                // console.log(`d x: ${d.x}`);
-                // console.log(`d y: ${d.y}`);
-                const diff = (Math.abs((event.x) - d[0]) + Math.abs((event.y) - d[1]));
+            data.forEach((d) => {
+                const diff = (Math.abs((event.x / 30) - d.x) + Math.abs((event.y / 30) - d.y));
                 if (diff < currentClosestRange) {
-                    closestNode = data[i];
+                    closestNode = d;
                     currentClosestRange = diff;
                 }
             })
@@ -77,8 +71,8 @@ export function useAddDragHandler({ data, setData, points }: Props) {
             })
             d3.select(this).on('mousedown.drag', null);
         });
-        handleDrag(d3.select(`.hexagon[data-row='${startGridItem.x}'][data-col='${startGridItem.y}']`));
-        handleDrag(d3.select(`.hexagon[data-row='${endGridItem.x}'][data-col='${endGridItem.y}']`));
+        handleDrag(d3.select(`rect[data-row='${startGridItem.x}'][data-col='${startGridItem.y}']`));
+        handleDrag(d3.select(`rect[data-row='${endGridItem.x}'][data-col='${endGridItem.y}']`));
     }
 
     const latestStartNode = useMemo(() => {

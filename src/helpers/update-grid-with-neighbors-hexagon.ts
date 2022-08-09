@@ -1,8 +1,9 @@
-import { IGridItem } from "interfaces/IGridItem";
+import cloneDeep from "lodash/cloneDeep";
 
 import colors from "theme/grid-item-colors";
+import { IGridItem } from "interfaces/IGridItem";
 
-export default function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGridItem, totalRows: number, totalCols: number) {
+export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGridItem, totalRows: number, totalCols: number) {
     const { x, y } = gridItem;
     const neighbors = [];
 
@@ -63,4 +64,15 @@ export default function identifyNeighbours(grid: Array<Array<IGridItem>>, gridIt
     }
 
     return neighbors;
+}
+
+export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number) => {
+    const newGrid = cloneDeep(grid);
+    newGrid.forEach((row) => {
+        row.forEach((item) => {
+            const n = identifyNeighbours(grid, item, totalRows, totalCols)
+            item.neighbors = n;
+        })
+    })
+    return newGrid;
 }

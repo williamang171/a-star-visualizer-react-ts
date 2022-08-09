@@ -1,7 +1,7 @@
 
 import cloneDeep from "lodash/cloneDeep";
 
-import { SPEED, SPEED_AWAIT } from 'configs/speed';
+import { SPEED, SPEED_AWAIT } from 'constants/speed';
 import { sleep } from 'helpers/sleep';
 import { IGridItem } from "interfaces/IGridItem";
 import gridItemColors from "theme/grid-item-colors";

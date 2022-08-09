@@ -1,24 +1,33 @@
-import { Button, Select, FormControl, InputLabel, MenuItem, Stack, Checkbox, FormGroup, FormControlLabel } from "@mui/material";
-import { SPEED } from "configs/speed";
-
+import React from "react";
+import { Button, Select, FormControl, InputLabel, MenuItem, Stack, Checkbox, FormGroup, FormControlLabel, SelectChangeEvent } from "@mui/material";
+import GRID_TYPE from "constants/grid-type";
+import { SPEED } from "constants/speed";
 
 interface Props {
     findPath: () => void,
     reset: () => void,
     speed: SPEED,
-    setSpeed: (speed: SPEED) => void,
+    setSpeed: (speed: any) => void,
     showCost: boolean,
-    setShowCost: (cost: boolean) => void
+    setShowCost: (cost: boolean) => void,
+    gridType: GRID_TYPE,
+    setGridType: (grid_type: any) => void
 }
 
 export default function Actions(props: Props) {
-    const { findPath, reset, speed, setSpeed, showCost, setShowCost } = props;
-    const handleChange = (e: any) => {
+    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType } = props;
+
+    const handleChangeSpeed = (e: SelectChangeEvent<SPEED>) => {
+
         setSpeed(e.target.value);
     }
 
     const handleChangeShowCost = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
         setShowCost(checked);
+    }
+
+    const handleChangeGridType = (e: SelectChangeEvent<GRID_TYPE>) => {
+        setGridType(e.target.value)
     }
 
     return (
@@ -31,17 +40,29 @@ export default function Actions(props: Props) {
                 Reset
             </Button>
 
-            <FormControl sx={{ width: "300px" }} >
+            <FormControl sx={{ width: "200px" }} >
                 <InputLabel>Speed</InputLabel>
                 <Select size="small"
                     value={speed}
                     label="Speed"
-                    onChange={handleChange}
+                    onChange={handleChangeSpeed}
                 >
                     <MenuItem value={SPEED.IMMEDIATE}>Immediate</MenuItem>
                     <MenuItem value={SPEED.FAST}>Fast</MenuItem>
                     <MenuItem value={SPEED.NORMAL}>Normal</MenuItem>
                     <MenuItem value={SPEED.SLOW}>Slow</MenuItem>
+                </Select>
+            </FormControl>
+
+            <FormControl sx={{ width: "200px" }} >
+                <InputLabel>Grid Type</InputLabel>
+                <Select size="small"
+                    value={gridType}
+                    label="Grid Type"
+                    onChange={handleChangeGridType}
+                >
+                    <MenuItem value={GRID_TYPE.HEXAGON}>Hexagon</MenuItem>
+                    <MenuItem value={GRID_TYPE.SQUARE}>Square</MenuItem>
                 </Select>
             </FormControl>
 

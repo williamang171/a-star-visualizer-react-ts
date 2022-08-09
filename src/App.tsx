@@ -18,8 +18,8 @@ function App() {
     <Navbar />
     <Box sx={{ mb: 2 }} />
     {/* <MVPApp /> */}
-    {/* <MainApp /> */}
-    <ExampleHexGrid />
+    <MainApp />
+    {/* <ExampleHexGrid /> */}
   </ThemeProvider>
 }
 

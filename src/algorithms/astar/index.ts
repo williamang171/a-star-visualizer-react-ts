@@ -4,7 +4,7 @@ import {
 import cloneDeep from "lodash/cloneDeep";
 import colors from "theme/grid-item-colors";
 
-import { SPEED, SPEED_AWAIT } from 'configs/speed';
+import { SPEED, SPEED_AWAIT } from 'constants/speed';
 import { IGridItem } from 'interfaces/IGridItem';
 import { LooseObject } from 'interfaces/LooseObject';
 import { hCost } from 'algorithms/astar/h-cost';
@@ -12,7 +12,7 @@ import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
 
-export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE) {
+export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
     let cameFrom: LooseObject = {}
@@ -43,7 +43,7 @@ export async function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, sta
                 newGrid[ny][nx].gCost = tempGScore;
                 newGrid[ny][nx].fCost = tempGScore + hCost(n, end)
                 newGrid[ny][nx].hCost = hCost(n, end)
-                if (!openSetHash[n.id]) {
+                if (!openSetHash[n.id] && newGrid[ny][nx].color !== colors.CLOSED) {
                     q.enqueue(newGrid[ny][nx]);
                     openSetHash[n.id] = true;
                     newGrid[ny][nx].color = colors.OPEN

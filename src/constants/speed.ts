@@ -8,6 +8,6 @@ export enum SPEED {
 export const SPEED_AWAIT = {
     [SPEED.IMMEDIATE]: 0,
     [SPEED.FAST]: 10,
-    [SPEED.NORMAL]: 50,
-    [SPEED.SLOW]: 500
+    [SPEED.NORMAL]: 100,
+    [SPEED.SLOW]: 1000
 }

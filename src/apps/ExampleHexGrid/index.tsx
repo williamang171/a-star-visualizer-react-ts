@@ -1,16 +1,15 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import * as d3Hexbin from "d3-hexbin";
 import { pink } from '@mui/material/colors';
+import flattenDeep from "lodash/flattenDeep";
 
 import { svgHeight, svgWidth, gTransform, hexRadius, initialData, ROWS, COLS } from "./data";
 import gridItemColors from 'theme/grid-item-colors';
 import { useAddDragHandler } from "./useAddDragHandler";
 import { IGridItem } from 'interfaces/IGridItem';
-import identifyNeighbours from './identify-neighbours';
-import { updateGridWithNeighbors } from './update-grid-with-neighbors';
-import { algorithm } from './algorithms';
-import _ from 'lodash';
-import { SPEED } from 'configs/speed';
+import { updateGridWithNeighbors, identifyNeighbours } from 'helpers/update-grid-with-neighbors-hexagon';
+import { astar } from 'algorithms/astar';
+import { SPEED } from 'constants/speed';
 
 const hexbin = d3Hexbin.hexbin().radius(hexRadius);
 
@@ -22,7 +21,7 @@ export default function ExampleHexGrid() {
     const [triggerRunPath, setTriggerRunPath] = useState(false);
 
     const redraw = (grid: Array<Array<IGridItem>>) => {
-        const flatGrid = _.flattenDeep(grid);
+        const flatGrid = flattenDeep(grid);
         setData(flatGrid)
     }
 
@@ -42,7 +41,7 @@ export default function ExampleHexGrid() {
         if (startNode && endNode) {
             const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
             const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
-            const pathFound = algorithm(redraw, gridWithNeighbors, startGridItem, endGridItem, speed)
+            const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed)
         }
         else {
             console.log("startNode and endNode not available!");
@@ -133,7 +132,7 @@ export default function ExampleHexGrid() {
         ns.forEach((n) => {
             newGrid[n.y][n.x].color = pink[300];
         })
-        const flatGrid = _.flattenDeep(newGrid);
+        const flatGrid = flattenDeep(newGrid);
         // console.log(flatGrid);
         setData(flatGrid)
     }
@@ -155,7 +154,7 @@ export default function ExampleHexGrid() {
     }
 
     const findPathTrigger = () => {
-        const toClear = [gridItemColors.OPEN, gridItemColors.CLOSED, gridItemColors.PATH];
+        const toClear: string[] = [gridItemColors.OPEN, gridItemColors.CLOSED, gridItemColors.PATH];
         const newData = data.map((d) => {
             const newD = {
                 ...d,

@@ -1,11 +1,11 @@
-import { LooseObject } from "interfaces/LooseObject";
+import { red, green, grey, orange, purple, blue } from "@mui/material/colors";
 
-export const START = '#42a5f5'; // dark blue
-export const CLOSED = '#d32f2f'; // red
-export const OPEN = '#388e3c'; // green
-export const BARRIER = '#63666A'; // dark grey
-export const END = '#f57c00'; // orange
-export const PATH = '#ab47bc'; // purple
+export const START = blue[500]; // dark blue
+export const CLOSED = red[500]; // red
+export const OPEN = green[500]; // green
+export const BARRIER = grey[800]; // dark grey
+export const END = orange[500]; // orange
+export const PATH = purple[500]; // purple
 export const BLANK = '#fff'; // white
 
 export default {

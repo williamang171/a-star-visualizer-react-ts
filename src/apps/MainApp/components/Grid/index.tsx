@@ -1,29 +1,21 @@
 import { useState } from "react";
 
-import styled from "styled-components";
-import { SQUARE_SIZE } from "apps/MainApp/data";
-import gridItemColors from "theme/grid-item-colors";
+import GRID_TYPE from "constants/grid-type";
 import { IGridItem } from "interfaces/IGridItem";
 
-import { useAddDragHandler } from "./useAddDragHandler";
-import CostText from "apps/MainApp/components/CostText";
-
-const Container = styled.div`
-    display: flex;
-    margin-top: 20px; 
-`;
+import SquareGrid from "./SquareGrid";
+import HexagonGrid from "./HexagonGrid";
+import gridItemColors from "theme/grid-item-colors";
 
 type GridProps = {
-    width: number;
-    height: number;
     data: IGridItem[];
     setData: (data: any) => void;
-    showCost: boolean
+    showCost: boolean,
+    gridType: GRID_TYPE
 };
 
-export const Grid = ({ width, height, data, setData, showCost }: GridProps) => {
+export const Grid = ({ data, setData, showCost, gridType }: GridProps) => {
     const [isMouseDown, setIsMouseDown] = useState(false);
-    const { dragGridItem } = useAddDragHandler({ data, setData })
 
     const updateGridItem = (e: any) => {
         const target = e.target;
@@ -33,7 +25,7 @@ export const Grid = ({ width, height, data, setData, showCost }: GridProps) => {
             if (d.color === gridItemColors.START || d.color === gridItemColors.END) {
                 return d;
             }
-            if (d.x === parseInt(target.dataset.row) && d.y === parseInt(target.dataset.col)) {
+            if (d.x === parseInt(target.dataset.col) && d.y === parseInt(target.dataset.row)) {
                 return {
                     ...d,
                     color: fillColor,
@@ -59,7 +51,7 @@ export const Grid = ({ width, height, data, setData, showCost }: GridProps) => {
         setIsMouseDown(false);
     }
 
-    const handleMousedown = (e: any) => {
+    const handleMouseDown = (e: any) => {
         updateGridItem(e);
     }
 
@@ -70,53 +62,21 @@ export const Grid = ({ width, height, data, setData, showCost }: GridProps) => {
         updateGridItem(e);
     }
 
-    // Build the rectangles
-    const allShapes = data.map((d, i) => {
-        return (
-            <g key={i} >
-                <rect
-                    data-row={d.x}
-                    data-col={d.y}
-                    x={d.x * SQUARE_SIZE}
-                    y={d.y * SQUARE_SIZE}
-                    width={SQUARE_SIZE}
-                    height={SQUARE_SIZE}
-                    opacity={1}
-                    fill={d.color}
-                    stroke={"#ccc"}
-                    onMouseDown={handleMousedown}
-                    onMouseOver={handleMouseOver}
-                />
-                <CostText showCost={showCost} d={d} />
-            </g>
-        );
-    });
-
-    return (
-        <Container>
-            <svg width={width} height={height}>
-                <g
-                    width={width}
-                    height={height}
-                    onMouseDown={handleSvgMouseDown}
-                    onMouseUp={handleSvgMouseUp}
-                    onMouseLeave={handleSvgMouseLeave}
-                >
-                    {allShapes}
-                    <rect
-                        id={dragGridItem.id}
-                        key={dragGridItem.key}
-                        opacity={dragGridItem.opacity}
-                        fill={dragGridItem.fill}
-                        width={dragGridItem.width}
-                        height={dragGridItem.height}
-                        x={dragGridItem.x}
-                        y={dragGridItem.y}
-                    />
-                </g>
-            </svg>
-        </Container>
-    );
+    if (gridType === GRID_TYPE.SQUARE) {
+        return <SquareGrid data={data} setData={setData} showCost={showCost} />
+    }
+    if (gridType === GRID_TYPE.HEXAGON) {
+        return <HexagonGrid
+            handleMouseDown={handleMouseDown}
+            handleMouseOver={handleMouseOver}
+            handleSvgMouseDown={handleSvgMouseDown}
+            handleSvgMouseUp={handleSvgMouseUp}
+            handleSvgMouseLeave={handleSvgMouseLeave}
+            data={data}
+            setData={setData}
+        />
+    }
+    return <div>{`Grid type of ${gridType} not supported.`}</div>
 };
 
 export default Grid;
