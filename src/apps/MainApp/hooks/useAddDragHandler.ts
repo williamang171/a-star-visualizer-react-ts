@@ -1,10 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
 import * as d3 from "d3";
 
-import { SQUARE_SIZE } from "data";
+import { SQUARE_SIZE } from "data/square-grid";
 import gridItemColors from "theme/grid-item-colors";
 import { IGridItem } from "interfaces/IGridItem";
-
 
 const initialDragGridItem = {
     id: "for-dnd",
@@ -20,10 +19,10 @@ const initialDragGridItem = {
 interface Props {
     data: IGridItem[];
     setData: (data: any) => void;
-    points: [number, number][]
+    computeClosestNode: (event: any) => IGridItem | null;
 }
 
-export function useAddDragHandler({ data, setData, points }: Props) {
+export function useAddDragHandler({ data, setData, computeClosestNode }: Props) {
     const [dragGridItem, setDragGridItem] = useState(initialDragGridItem)
 
     const addHandleDrag = (startGridItem: IGridItem, endGridItem: IGridItem) => {
@@ -36,20 +35,8 @@ export function useAddDragHandler({ data, setData, points }: Props) {
                 fill: d3.select(this).attr("fill")
             })
         }).on('end', function (event) {
-            let closestNode: IGridItem | null = null;
-            let currentClosestRange = Infinity;
-            console.log(`Event x: ${event.x}`);
-            console.log(`Event y: ${event.y}`);
-
-            points.forEach((d, i) => {
-                // console.log(`d x: ${d.x}`);
-                // console.log(`d y: ${d.y}`);
-                const diff = (Math.abs((event.x) - d[0]) + Math.abs((event.y) - d[1]));
-                if (diff < currentClosestRange) {
-                    closestNode = data[i];
-                    currentClosestRange = diff;
-                }
-            })
+            // console.log(`Event x: ${event.x}, Event: y: ${event.y}`);
+            const closestNode = computeClosestNode(event);
             const newData = data.map((d) => {
                 const selectedColor = d3.select(this).attr("fill");
                 const isClosestNode = closestNode && d.x === closestNode.x && closestNode.y === d.y;
@@ -77,8 +64,8 @@ export function useAddDragHandler({ data, setData, points }: Props) {
             })
             d3.select(this).on('mousedown.drag', null);
         });
-        handleDrag(d3.select(`.hexagon[data-row='${startGridItem.x}'][data-col='${startGridItem.y}']`));
-        handleDrag(d3.select(`.hexagon[data-row='${endGridItem.x}'][data-col='${endGridItem.y}']`));
+        handleDrag(d3.select(`.grid-item[data-row='${startGridItem.y}'][data-col='${startGridItem.x}']`));
+        handleDrag(d3.select(`.grid-item[data-row='${endGridItem.y}'][data-col='${endGridItem.x}']`));
     }
 
     const latestStartNode = useMemo(() => {

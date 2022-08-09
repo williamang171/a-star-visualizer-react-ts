@@ -11,7 +11,8 @@ import { astar } from "algorithms/astar";
 
 import Actions from './components/Actions';
 import Grid from "./components/Grid";
-import { data as initialData, ROWS, COLS } from "data";
+// import { data as initialData, ROWS, COLS } from "data/square-grid";
+import { initialData, ROWS, COLS } from 'data/hexagon-grid';
 
 import useAppState from './hooks/useAppState';
 import GRID_TYPE from 'constants/grid-type';
@@ -104,6 +105,7 @@ export default function MainApp() {
         <AppContainer>
             <div>
                 <Actions
+                    setData={setData}
                     showCost={showCost}
                     setShowCost={setShowCost}
                     findPath={findPathTrigger}

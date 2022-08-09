@@ -3,8 +3,8 @@ import gridItemColors from "theme/grid-item-colors";
 
 const startX = 3;
 const startY = 3;
-const endX = 16;
-const endY = 16;
+const endX = 12;
+const endY = 12;
 
 export function getFillColor(x: number, y: number) {
     if (x === startX && y === startY) {

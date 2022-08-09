@@ -46,7 +46,9 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
                 if (!openSetHash[n.id] && newGrid[ny][nx].color !== colors.CLOSED) {
                     q.enqueue(newGrid[ny][nx]);
                     openSetHash[n.id] = true;
-                    newGrid[ny][nx].color = colors.OPEN
+                    if (newGrid[ny][nx].color !== colors.END) {
+                        newGrid[ny][nx].color = colors.OPEN
+                    }
                 }
             }
         })

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Select, FormControl, InputLabel, MenuItem, Stack, Checkbox, FormGroup, FormControlLabel, SelectChangeEvent } from "@mui/material";
 import GRID_TYPE from "constants/grid-type";
 import { SPEED } from "constants/speed";
+import { initialData } from "data/hexagon-grid";
 
 interface Props {
     findPath: () => void,
@@ -11,14 +12,14 @@ interface Props {
     showCost: boolean,
     setShowCost: (cost: boolean) => void,
     gridType: GRID_TYPE,
-    setGridType: (grid_type: any) => void
+    setGridType: (grid_type: any) => void,
+    setData: (data: any) => void,
 }
 
 export default function Actions(props: Props) {
-    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType } = props;
+    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData } = props;
 
     const handleChangeSpeed = (e: SelectChangeEvent<SPEED>) => {
-
         setSpeed(e.target.value);
     }
 
@@ -28,6 +29,7 @@ export default function Actions(props: Props) {
 
     const handleChangeGridType = (e: SelectChangeEvent<GRID_TYPE>) => {
         setGridType(e.target.value)
+        setData(initialData);
     }
 
     return (
@@ -66,9 +68,9 @@ export default function Actions(props: Props) {
                 </Select>
             </FormControl>
 
-            <FormGroup>
+            {/* <FormGroup>
                 <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} />} label="Show Cost" />
-            </FormGroup>
+            </FormGroup> */}
 
         </Stack>
     )

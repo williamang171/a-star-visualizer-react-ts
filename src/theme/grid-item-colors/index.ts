@@ -1,4 +1,4 @@
-import { red, green, grey, orange, purple, blue } from "@mui/material/colors";
+import { red, green, grey, orange, purple, blue, } from "@mui/material/colors";
 
 export const START = blue[500]; // dark blue
 export const CLOSED = red[500]; // red

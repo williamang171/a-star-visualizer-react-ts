@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import * as d3Hexbin from "d3-hexbin";
-import { pink } from '@mui/material/colors';
+import { pink, grey } from '@mui/material/colors';
 import flattenDeep from "lodash/flattenDeep";
 
-import { svgHeight, svgWidth, gTransform, hexRadius } from "./data";
-import { ROWS, COLS } from "data";
-import { useAddDragHandler } from "./useAddDragHandler";
+import { svgHeight, svgWidth, gTransform, hexRadius } from "data/hexagon-grid";
+import { ROWS, COLS } from "data/hexagon-grid";
+import { useAddDragHandler } from "apps/MainApp/hooks/useAddDragHandler";
 import { IGridItem } from 'interfaces/IGridItem';
 import { identifyNeighbours } from 'helpers/update-grid-with-neighbors-hexagon';
 
@@ -24,6 +24,8 @@ interface Props {
 export default function HexagonGrid(props: Props) {
     const { handleSvgMouseDown, handleSvgMouseUp, handleMouseDown, handleMouseOver, handleSvgMouseLeave, data, setData } = props;
 
+    console.log(data)
+
     const generatedPoints = useMemo(() => {
         const points: [number, number][] = [];
         for (let i = 0; i < ROWS; i++) {
@@ -38,7 +40,27 @@ export default function HexagonGrid(props: Props) {
         return points
     }, [data])
 
-    const { dragGridItem } = useAddDragHandler({ data, setData, points: generatedPoints })
+    const computeClosestNode = (event: any) => {
+        let closestNode: IGridItem | null = null;
+        let currentClosestRange = Infinity;
+
+        generatedPoints.forEach((d, i) => {
+            const diff = (Math.abs((event.x) - d[0]) + Math.abs((event.y) - d[1]));
+            if (diff < currentClosestRange) {
+                closestNode = data[i];
+                currentClosestRange = diff;
+            }
+        })
+        return closestNode;
+    }
+
+    const { dragGridItem } = useAddDragHandler({ data, setData, computeClosestNode: computeClosestNode })
+
+    const dragGridItemPoints: [number, number][] = useMemo(() => {
+        return [
+            [dragGridItem.x, dragGridItem.y]
+        ]
+    }, [dragGridItem])
 
     const drawNeighbors = (event: React.MouseEvent<SVGPathElement>) => {
         const row = event.currentTarget.attributes.getNamedItem('data-row')?.value;
@@ -73,6 +95,8 @@ export default function HexagonGrid(props: Props) {
         // drawNeighbors(event);
     }
 
+    console.log(dragGridItemPoints)
+
     return (
         <div>
             <svg width={svgWidth} height={svgHeight}>
@@ -85,8 +109,8 @@ export default function HexagonGrid(props: Props) {
                                 id={`${p.y}-${p.x}`}
                                 key={`${p.y}-${p.x}`}
                                 onClick={handleMouseClick}
-                                className='hexagon'
-                                stroke='grey'
+                                className='grid-item'
+                                stroke={grey[500]}
                                 strokeWidth={1}
                                 fill={data[i].color}
                                 d={`M${p.x},${p.y}${hexbin.hexagon()}`}
@@ -96,7 +120,7 @@ export default function HexagonGrid(props: Props) {
                                 onMouseOver={handleMouseOver} />
                         })}
                     </g>
-                    <rect
+                    {/* <rect
                         id={dragGridItem.id}
                         key={dragGridItem.key}
                         opacity={dragGridItem.opacity}
@@ -105,7 +129,16 @@ export default function HexagonGrid(props: Props) {
                         height={dragGridItem.height}
                         x={dragGridItem.x}
                         y={dragGridItem.y}
-                    />
+                    /> */}
+                    {hexbin(dragGridItemPoints).map((p, i) => {
+                        return <path
+                            id={dragGridItem.id}
+                            key={dragGridItem.id}
+                            stroke={grey[500]}
+                            strokeWidth={1}
+                            fill={dragGridItem.fill}
+                            d={`M${p.x},${p.y}${hexbin.hexagon()}`} />
+                    })}
                 </g>
             </svg>
         </div>

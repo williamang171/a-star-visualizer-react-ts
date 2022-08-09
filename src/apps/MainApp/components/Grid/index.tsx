@@ -11,7 +11,7 @@ type GridProps = {
     data: IGridItem[];
     setData: (data: any) => void;
     showCost: boolean,
-    gridType: GRID_TYPE
+    gridType: GRID_TYPE,
 };
 
 export const Grid = ({ data, setData, showCost, gridType }: GridProps) => {
@@ -63,7 +63,15 @@ export const Grid = ({ data, setData, showCost, gridType }: GridProps) => {
     }
 
     if (gridType === GRID_TYPE.SQUARE) {
-        return <SquareGrid data={data} setData={setData} showCost={showCost} />
+        return <SquareGrid
+            handleMouseDown={handleMouseDown}
+            handleMouseOver={handleMouseOver}
+            handleSvgMouseDown={handleSvgMouseDown}
+            handleSvgMouseUp={handleSvgMouseUp}
+            handleSvgMouseLeave={handleSvgMouseLeave}
+            data={data}
+            setData={setData}
+            showCost={showCost} />
     }
     if (gridType === GRID_TYPE.HEXAGON) {
         return <HexagonGrid
