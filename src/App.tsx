@@ -3,6 +3,7 @@ import { blue } from "@mui/material/colors";
 
 import MVPApp from "apps/MVPApp";
 import MainApp from "apps/MainApp";
+import ExampleHexGrid from "apps/ExampleHexGrid";
 import Navbar from "components/Navbar";
 
 const theme = createTheme({
@@ -17,7 +18,8 @@ function App() {
     <Navbar />
     <Box sx={{ mb: 2 }} />
     {/* <MVPApp /> */}
-    <MainApp />
+    {/* <MainApp /> */}
+    <ExampleHexGrid />
   </ThemeProvider>
 }
 

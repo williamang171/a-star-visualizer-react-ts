@@ -10,8 +10,6 @@ const startY = 2;
 const endX = 17;
 const endY = 17;
 
-let data: IGridItem[] = [];
-
 function getFillColor(x: number, y: number) {
     if (x === startX && y === startY) {
         return gridItemColors.START;
@@ -22,19 +20,25 @@ function getFillColor(x: number, y: number) {
     return gridItemColors.BLANK;
 }
 
-for (let y = 0; y < COLS; y++) {
-    for (let x = 0; x < ROWS; x++) {
-        data.push({
-            x: x,
-            y: y,
-            color: getFillColor(x, y),
-            fCost: Infinity,
-            hCost: Infinity,
-            gCost: Infinity,
-            id: `x${x}-y${y}`,
-            neighbors: []
-        });
+export function generateData(rows: number, cols: number) {
+    let data: IGridItem[] = [];
+    for (let y = 0; y < cols; y++) {
+        for (let x = 0; x < rows; x++) {
+            data.push({
+                x: x,
+                y: y,
+                color: getFillColor(x, y),
+                fCost: Infinity,
+                hCost: Infinity,
+                gCost: Infinity,
+                id: `x${x}-y${y}`,
+                neighbors: []
+            });
+        }
     }
+    return data;
 }
+
+const data = generateData(ROWS, COLS)
 
 export { data };
