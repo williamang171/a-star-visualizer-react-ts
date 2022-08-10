@@ -16,16 +16,23 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
     let cameFrom: LooseObject = {}
-    let openSetHash = { [start.id]: true };
     let newGrid = cloneDeep(grid);
     newGrid[start.y][start.x].fCost = 0;
     newGrid[start.y][start.x].gCost = 0;
+
+    let openSetHash = { [start.id]: newGrid[start.y][start.x].fCost };
 
     while (!q.isEmpty()) {
         const current = q.dequeue();
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];
+
+        // Since we are pushing duplicated grid items to the queue if the fCost is lower, there could be a situation where the grid item is already evaluated
+        // In this case we can skip the evaluation of the grid item (as the grid item with the lower fCost is evaluated)
+        if (newGrid[currentY][currentX].color === colors.CLOSED) {
+            continue;
+        }
 
         if (current.x === end.x && current.y === end.y) {
             // Path found...
@@ -43,9 +50,19 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
                 newGrid[ny][nx].gCost = tempGScore;
                 newGrid[ny][nx].fCost = tempGScore + hCost(n, end)
                 newGrid[ny][nx].hCost = hCost(n, end)
-                if (!openSetHash[n.id] && newGrid[ny][nx].color !== colors.CLOSED) {
+
+                // If already in open set, but current fCost is lower
+                const alreadyInOpenSetButFCostIsLower = openSetHash[n.id] !== undefined && newGrid[ny][nx].fCost < openSetHash[n.id];
+
+                // If not in open set yet
+                const notInOpenSet = openSetHash[n.id] === undefined;
+
+                // If it is closed
+                const isClosed = newGrid[ny][nx].color === colors.CLOSED;
+
+                if ((alreadyInOpenSetButFCostIsLower || notInOpenSet) && !isClosed) {
                     q.enqueue(newGrid[ny][nx]);
-                    openSetHash[n.id] = true;
+                    openSetHash[n.id] = newGrid[ny][nx].fCost;
                     if (newGrid[ny][nx].color !== colors.END) {
                         newGrid[ny][nx].color = colors.OPEN
                     }
@@ -53,12 +70,15 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
             }
         })
 
+        const skipWait = newGrid[current.y][current.x].color === colors.CLOSED;
         if (current.id !== start.id) {
             newGrid[current.y][current.x].color = colors.CLOSED;
         }
 
         if (speed !== SPEED.IMMEDIATE) {
             setGrid(newGrid);
+        }
+        if (!skipWait && speed !== SPEED.IMMEDIATE) {
             await sleep(SPEED_AWAIT[speed])
         }
     }
