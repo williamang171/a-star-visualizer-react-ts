@@ -24,7 +24,6 @@ interface Props {
 export default function HexagonGrid(props: Props) {
     const { handleSvgMouseDown, handleSvgMouseUp, handleMouseDown, handleMouseOver, handleSvgMouseLeave, data, setData } = props;
 
-    console.log(data)
 
     const generatedPoints = useMemo(() => {
         const points: [number, number][] = [];
@@ -95,7 +94,6 @@ export default function HexagonGrid(props: Props) {
         // drawNeighbors(event);
     }
 
-    console.log(dragGridItemPoints)
 
     return (
         <div>

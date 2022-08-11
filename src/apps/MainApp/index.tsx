@@ -61,7 +61,7 @@ export default function MainApp() {
         const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
         const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
         // Start finding the path
-        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed)
+        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType)
     }
 
     const reset = () => {

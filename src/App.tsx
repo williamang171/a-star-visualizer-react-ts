@@ -1,7 +1,6 @@
 import { CssBaseline, ThemeProvider, createTheme, Box } from "@mui/material";
 import { blue } from "@mui/material/colors";
 
-import MVPApp from "apps/MVPApp";
 import MainApp from "apps/MainApp";
 import Navbar from "components/Navbar";
 

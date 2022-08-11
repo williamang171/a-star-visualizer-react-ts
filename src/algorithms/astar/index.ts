@@ -8,11 +8,13 @@ import { SPEED, SPEED_AWAIT } from 'constants/speed';
 import { IGridItem } from 'interfaces/IGridItem';
 import { LooseObject } from 'interfaces/LooseObject';
 import { hCost } from 'algorithms/astar/h-cost';
+import { hCostHexagon } from './h-cost-hexagon';
 import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
+import GRID_TYPE from 'constants/grid-type';
 
-export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE) {
+export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE, gridType = GRID_TYPE.HEXAGON) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
     let cameFrom: LooseObject = {}
@@ -48,8 +50,10 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
             if (tempGScore < nGCost) {
                 cameFrom[n.id] = current.id;
                 newGrid[ny][nx].gCost = tempGScore;
-                newGrid[ny][nx].fCost = tempGScore + hCost(n, end)
-                newGrid[ny][nx].hCost = hCost(n, end)
+                const hc = gridType === GRID_TYPE.HEXAGON ? hCostHexagon(n, end) : hCost(n, end);
+                // const hc = hCost(n, end)
+                newGrid[ny][nx].fCost = tempGScore + hc
+                newGrid[ny][nx].hCost = hc
 
                 // If already in open set, but current fCost is lower
                 const alreadyInOpenSetButFCostIsLower = openSetHash[n.id] !== undefined && newGrid[ny][nx].fCost < openSetHash[n.id];

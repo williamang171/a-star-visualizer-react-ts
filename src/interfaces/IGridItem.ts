@@ -7,4 +7,7 @@ export interface IGridItem {
     y: number,
     neighbors: Array<IGridItem> | Array<any>,
     color: string,
+    hexX?: number;
+    hexY?: number;
+    hexZ?: number;
 }
