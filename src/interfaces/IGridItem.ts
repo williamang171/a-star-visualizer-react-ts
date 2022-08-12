@@ -10,4 +10,5 @@ export interface IGridItem {
     hexX?: number;
     hexY?: number;
     hexZ?: number;
+    weight: number;
 }

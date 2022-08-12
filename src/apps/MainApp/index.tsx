@@ -6,6 +6,7 @@ import Legends from 'components/Legends';
 import { IGridItem } from 'interfaces/IGridItem';
 import gridItemColors from 'theme/grid-item-colors';
 import { updateGridWithNeighbors } from 'helpers/update-grid-with-neighbors';
+import { updateGridWithNeighbors as updateGridWithNeighborsDiagonal } from 'helpers/update-grid-with-neighbors-diagonal';
 import { updateGridWithNeighbors as updateGridWithNeighborsHexagon } from 'helpers/update-grid-with-neighbors-hexagon';
 import { astar } from "algorithms/astar";
 
@@ -47,7 +48,7 @@ export default function MainApp() {
         })
 
         // Update grid with neighbors
-        const gridWithNeighbors = gridType === GRID_TYPE.HEXAGON ? updateGridWithNeighborsHexagon(grid, ROWS, COLS) : updateGridWithNeighbors(grid, ROWS, COLS);
+        const gridWithNeighbors = gridType === GRID_TYPE.HEXAGON ? updateGridWithNeighborsHexagon(grid, ROWS, COLS) : updateGridWithNeighborsDiagonal(grid, ROWS, COLS);
 
         // Identify start and end node
         const startNode = data.find((d) => d.color === gridItemColors.START);

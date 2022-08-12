@@ -68,9 +68,9 @@ export default function Actions(props: Props) {
                 </Select>
             </FormControl>
 
-            {/* <FormGroup>
+            <FormGroup>
                 <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} />} label="Show Cost" />
-            </FormGroup> */}
+            </FormGroup>
 
         </Stack>
     )

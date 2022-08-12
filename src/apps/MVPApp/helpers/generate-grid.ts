@@ -13,7 +13,8 @@ export const generateGrid = (rows: number, cols: number) => {
                 fCost: Infinity,
                 gCost: Infinity,
                 hCost: Infinity,
-                neighbors: []
+                neighbors: [],
+                weight: 1
             })
         }
         grid.push(elements)

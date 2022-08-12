@@ -9,6 +9,7 @@ import { IGridItem } from 'interfaces/IGridItem';
 import { LooseObject } from 'interfaces/LooseObject';
 import { hCost } from 'algorithms/astar/h-cost';
 import { hCostHexagon } from './h-cost-hexagon';
+import { hCost as hCostDiagonal } from './h-cost-diagonal';
 import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
@@ -42,15 +43,15 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
             return true;
         }
 
-        current.neighbors.forEach((n) => {
+        current.neighbors.forEach((n: IGridItem) => {
             const nx = n.x;
             const ny = n.y;
-            const tempGScore = newGrid[currentY][currentX].gCost + 1
+            const tempGScore = newGrid[currentY][currentX].gCost + n.weight;
             const nGCost = newGrid[ny][nx].gCost;
             if (tempGScore < nGCost) {
                 cameFrom[n.id] = current.id;
                 newGrid[ny][nx].gCost = tempGScore;
-                const hc = gridType === GRID_TYPE.HEXAGON ? hCostHexagon(n, end) : hCost(n, end);
+                const hc = gridType === GRID_TYPE.HEXAGON ? hCostHexagon(n, end) : hCostDiagonal(n, end);
                 // const hc = hCost(n, end)
                 newGrid[ny][nx].fCost = tempGScore + hc
                 newGrid[ny][nx].hCost = hc

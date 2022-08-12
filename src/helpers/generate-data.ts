@@ -46,6 +46,7 @@ export function generateData(rows: number, cols: number) {
                 gCost: Infinity,
                 id: `x${x}-y${y}`,
                 neighbors: [],
+                weight: 1
             });
         }
     }
