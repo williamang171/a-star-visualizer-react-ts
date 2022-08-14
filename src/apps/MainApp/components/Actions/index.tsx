@@ -78,9 +78,9 @@ export default function Actions(props: Props) {
                 <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} disabled={disabled} />} label="Show Cost" />
             </FormGroup> */}
 
-            {gridType === GRID_TYPE.SQUARE ? <FormGroup>
-                <FormControlLabel control={<Checkbox checked={allowDiagonal} onChange={handleChangeAllowDiagonal} disabled={disabled} />} label="Allow Diagonal" />
-            </FormGroup> : null}
+            <FormGroup>
+                <FormControlLabel control={<Checkbox checked={gridType === GRID_TYPE.HEXAGON ? false : allowDiagonal} onChange={handleChangeAllowDiagonal} disabled={disabled || gridType === GRID_TYPE.HEXAGON} />} label="Allow Diagonal" />
+            </FormGroup>
 
         </Stack>
     )

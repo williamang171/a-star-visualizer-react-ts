@@ -10,7 +10,7 @@ import { astar } from "algorithms/astar";
 
 import Actions from './components/Actions';
 import Grid from "./components/Grid";
-import { ROWS, COLS } from 'data/hexagon-grid';
+import { ROWS, COLS } from "data/grid-settings";
 
 import useAppState from './hooks/useAppState';
 

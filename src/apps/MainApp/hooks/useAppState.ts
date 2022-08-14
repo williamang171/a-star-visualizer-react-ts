@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 
 import GRID_TYPE from "constants/grid-type";
 import { SPEED } from "constants/speed";
-import { COLS, ROWS } from "data/hexagon-grid";
+import { ROWS, COLS } from "data/grid-settings";
 import { generateData } from "helpers/generate-data";
 
 const initialData = generateData(ROWS, COLS);

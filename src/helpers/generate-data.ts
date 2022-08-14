@@ -1,11 +1,11 @@
 import { IGridItem } from "interfaces/IGridItem";
 import gridItemColors from "theme/grid-item-colors";
-
+import { ROWS, COLS } from "data/grid-settings";
 
 const startX = 3;
 const startY = 3;
-const endX = 24 - 4;
-const endY = 24 - 4;
+const endX = COLS - 4;
+const endY = ROWS - 4;
 
 export function getFillColor(x: number, y: number) {
     if (x === startX && y === startY) {

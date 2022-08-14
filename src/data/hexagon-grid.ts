@@ -1,18 +1,15 @@
 import * as d3 from "d3";
+import { ROWS, COLS } from "./grid-settings";
 
 //SVG sizes and margins
 export const margin = {
     top: 20,
     right: 20,
     bottom: 20,
-    left: 50
+    left: 80
 };
 export const width = 700;
-export const height = 700;
-
-//The number of columns and rows of the heatmap
-export const COLS = 24;
-export const ROWS = 24;
+export const height = 550;
 
 //The maximum radius the hexagons can have to still fit the screen
 export const hexRadius = d3.min([width / ((COLS + 0.5) * Math.sqrt(3)),

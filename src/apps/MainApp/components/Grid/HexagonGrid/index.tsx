@@ -4,7 +4,7 @@ import { pink, grey } from '@mui/material/colors';
 import flattenDeep from "lodash/flattenDeep";
 
 import { svgHeight, svgWidth, gTransform, hexRadius } from "data/hexagon-grid";
-import { ROWS, COLS } from "data/hexagon-grid";
+import { ROWS, COLS } from "data/grid-settings";
 import { useAddDragHandler } from "apps/MainApp/hooks/useAddDragHandler";
 import { IGridItem } from 'interfaces/IGridItem';
 import { identifyNeighbours } from 'helpers/update-grid-with-neighbors/hexagon';

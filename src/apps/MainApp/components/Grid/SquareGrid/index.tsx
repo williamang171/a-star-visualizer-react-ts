@@ -5,7 +5,8 @@ import { grey, pink } from "@mui/material/colors";
 import { IGridItem } from "interfaces/IGridItem";
 import CostText from "apps/MainApp/components/CostText";
 import { useAddDragHandler } from "apps/MainApp/hooks/useAddDragHandler";
-import { SQUARE_SIZE, ROWS, COLS } from "data/square-grid";
+import { SQUARE_SIZE } from "data/square-grid";
+import { ROWS, COLS } from "data/grid-settings";
 import { identifyNeighbours } from "helpers/update-grid-with-neighbors/square";
 
 const Container = styled.div`
