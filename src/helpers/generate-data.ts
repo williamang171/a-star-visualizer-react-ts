@@ -4,8 +4,8 @@ import gridItemColors from "theme/grid-item-colors";
 
 const startX = 3;
 const startY = 3;
-const endX = 30 - 4;
-const endY = 20 - 4;
+const endX = 24 - 4;
+const endY = 24 - 4;
 
 export function getFillColor(x: number, y: number) {
     if (x === startX && y === startY) {

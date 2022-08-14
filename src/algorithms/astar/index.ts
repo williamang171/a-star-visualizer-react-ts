@@ -37,7 +37,7 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
 
         if (current.x === end.x && current.y === end.y) {
             // Path found...
-            reconstructPath(cameFrom, end, start, setGrid, newGrid, speed);
+            await reconstructPath(cameFrom, end, start, setGrid, newGrid, speed);
             return true;
         }
 

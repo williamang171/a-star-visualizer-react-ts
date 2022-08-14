@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import flattenDeep from "lodash/flattenDeep";
-import { pink } from "@mui/material/colors";
+import { grey, pink } from "@mui/material/colors";
 
 import { IGridItem } from "interfaces/IGridItem";
 import CostText from "apps/MainApp/components/CostText";
@@ -10,7 +10,8 @@ import { identifyNeighbours } from "helpers/update-grid-with-neighbors/square";
 
 const Container = styled.div`
     display: flex;
-    margin-top: 20px; 
+    margin-top: 20px;
+    justify-content: center;
 `;
 
 type GridProps = {
@@ -90,7 +91,7 @@ export const Grid = ({ data, setData, showCost, handleMouseDown, handleMouseOver
                     height={SQUARE_SIZE}
                     opacity={1}
                     fill={d.color}
-                    stroke={"#ccc"}
+                    stroke={grey[500]}
                     onMouseDown={handleMouseDown}
                     onMouseOver={handleMouseOver}
                     className="grid-item"

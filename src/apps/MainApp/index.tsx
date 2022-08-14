@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { ReactEventHandler, useEffect } from 'react'
 import styled from "styled-components";
 import flattenDeep from "lodash/flattenDeep";
 
@@ -10,7 +10,7 @@ import { astar } from "algorithms/astar";
 
 import Actions from './components/Actions';
 import Grid from "./components/Grid";
-import { initialData, ROWS, COLS } from 'data/hexagon-grid';
+import { ROWS, COLS } from 'data/hexagon-grid';
 
 import useAppState from './hooks/useAppState';
 
@@ -19,7 +19,21 @@ const AppContainer = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    min-width: 800px;
+`;
+
+const PreventEventPropogationMask = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: red;
+    zIndex: 1000;
+    opacity: 0;
+
+    :hover {
+        cursor:not-allowed
+    }
 `;
 
 export default function MainApp() {
@@ -33,9 +47,14 @@ export default function MainApp() {
         data,
         setData,
         allowDiagonal,
-        setAllowDiagonal } = useAppState();
+        setAllowDiagonal,
+        resetGrid,
+        findingPath,
+        setFindingPath
+    } = useAppState();
 
-    const findPath = () => {
+    const findPath = async () => {
+
         // Transform grid[] to grid[][] 
         const grid: Array<Array<IGridItem>> = [];
         data.forEach((d) => {
@@ -60,11 +79,8 @@ export default function MainApp() {
         const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
         const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
         // Start finding the path
-        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType, allowDiagonal)
-    }
-
-    const reset = () => {
-        setData(initialData);
+        const pathFound = await astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType, allowDiagonal)
+        setFindingPath(false);
     }
 
     const findPathTrigger = () => {
@@ -95,20 +111,27 @@ export default function MainApp() {
 
     useEffect(() => {
         if (triggerRunPath === true) {
+            setFindingPath(true);
             setTriggerRunPath(false);
             findPath()
         }
     }, [triggerRunPath, data])
 
+    const handleAppContainerClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+    }
+
     return (
         <AppContainer>
+            {findingPath ? <PreventEventPropogationMask onClick={handleAppContainerClick} /> : null}
             <div>
                 <Actions
+                    disabled={findingPath}
                     setData={setData}
                     showCost={showCost}
                     setShowCost={setShowCost}
                     findPath={findPathTrigger}
-                    reset={reset} speed={speed}
+                    reset={resetGrid} speed={speed}
                     setSpeed={setSpeed}
                     gridType={gridType}
                     setGridType={setGridType}

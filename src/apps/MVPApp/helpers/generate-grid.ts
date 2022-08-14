@@ -14,7 +14,10 @@ export const generateGrid = (rows: number, cols: number) => {
                 gCost: Infinity,
                 hCost: Infinity,
                 neighbors: [],
-                weight: 1
+                weight: 1,
+                hexX: 0,
+                hexY: 0,
+                hexZ: 0
             })
         }
         grid.push(elements)

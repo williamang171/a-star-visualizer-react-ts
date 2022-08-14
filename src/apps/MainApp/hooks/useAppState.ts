@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import GRID_TYPE from "constants/grid-type";
 import { SPEED } from "constants/speed";
-// import { data as initialData } from "data/square-grid";
-import { initialData } from "data/hexagon-grid";
+import { COLS, ROWS } from "data/hexagon-grid";
+import { generateData } from "helpers/generate-data";
+
+const initialData = generateData(ROWS, COLS);
 
 export default function useAppState() {
     const [speed, setSpeed] = useState(SPEED.FAST);
@@ -12,6 +14,11 @@ export default function useAppState() {
     const [gridType, setGridType] = useState(GRID_TYPE.HEXAGON);
     const [triggerRunPath, setTriggerRunPath] = useState(false);
     const [allowDiagonal, setAllowDiagonal] = useState(true);
+    const [findingPath, setFindingPath] = useState(false);
+
+    const resetGrid = useCallback(() => {
+        setData(initialData)
+    }, [setData])
 
     return {
         speed,
@@ -24,6 +31,9 @@ export default function useAppState() {
         data,
         setData,
         allowDiagonal,
-        setAllowDiagonal
+        setAllowDiagonal,
+        resetGrid,
+        findingPath,
+        setFindingPath
     }
 }

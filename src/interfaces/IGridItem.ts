@@ -5,10 +5,10 @@ export interface IGridItem {
     id: string,
     x: number,
     y: number,
-    neighbors: Array<IGridItem> | Array<any>,
+    neighbors: Array<IGridItem>,
     color: string,
-    hexX?: number;
-    hexY?: number;
-    hexZ?: number;
+    hexX: number;
+    hexY: number;
+    hexZ: number;
     weight: number;
 }

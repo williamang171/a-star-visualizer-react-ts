@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Select, FormControl, InputLabel, MenuItem, Stack, Checkbox, FormGroup, FormControlLabel, SelectChangeEvent } from "@mui/material";
 import GRID_TYPE from "constants/grid-type";
 import { SPEED } from "constants/speed";
-import { initialData } from "data/hexagon-grid";
 
 interface Props {
     findPath: () => void,
@@ -16,10 +15,11 @@ interface Props {
     setData: (data: any) => void,
     allowDiagonal: boolean,
     setAllowDiagonal: (s: boolean) => void;
+    disabled: boolean,
 }
 
 export default function Actions(props: Props) {
-    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData, allowDiagonal, setAllowDiagonal } = props;
+    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData, allowDiagonal, setAllowDiagonal, disabled } = props;
 
     const handleChangeSpeed = (e: SelectChangeEvent<SPEED>) => {
         setSpeed(e.target.value);
@@ -35,16 +35,16 @@ export default function Actions(props: Props) {
 
     const handleChangeGridType = (e: SelectChangeEvent<GRID_TYPE>) => {
         setGridType(e.target.value)
-        setData(initialData);
+        reset()
     }
 
     return (
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }} >
-            <Button variant="contained" onClick={findPath} type="button">
+        <Stack direction="row" spacing={1} sx={{ mb: 2 }} justifyContent="center" >
+            <Button variant="contained" onClick={findPath} type="button" disabled={disabled}>
                 Find Path
             </Button>
 
-            <Button variant="outlined" onClick={reset} type="button">
+            <Button variant="outlined" onClick={reset} type="button" disabled={disabled}>
                 Reset
             </Button>
 
@@ -53,7 +53,7 @@ export default function Actions(props: Props) {
                 <Select size="small"
                     value={speed}
                     label="Speed"
-                    onChange={handleChangeSpeed}
+                    onChange={handleChangeSpeed} disabled={disabled}
                 >
                     <MenuItem value={SPEED.IMMEDIATE}>Immediate</MenuItem>
                     <MenuItem value={SPEED.FAST}>Fast</MenuItem>
@@ -67,7 +67,7 @@ export default function Actions(props: Props) {
                 <Select size="small"
                     value={gridType}
                     label="Grid Type"
-                    onChange={handleChangeGridType}
+                    onChange={handleChangeGridType} disabled={disabled}
                 >
                     <MenuItem value={GRID_TYPE.HEXAGON}>Hexagon</MenuItem>
                     <MenuItem value={GRID_TYPE.SQUARE}>Square</MenuItem>
@@ -75,11 +75,11 @@ export default function Actions(props: Props) {
             </FormControl>
 
             {/* <FormGroup>
-                <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} />} label="Show Cost" />
+                <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} disabled={disabled} />} label="Show Cost" />
             </FormGroup> */}
 
             {gridType === GRID_TYPE.SQUARE ? <FormGroup>
-                <FormControlLabel control={<Checkbox checked={allowDiagonal} onChange={handleChangeAllowDiagonal} />} label="Allow Diagonal" />
+                <FormControlLabel control={<Checkbox checked={allowDiagonal} onChange={handleChangeAllowDiagonal} disabled={disabled} />} label="Allow Diagonal" />
             </FormGroup> : null}
 
         </Stack>

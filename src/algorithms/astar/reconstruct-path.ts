@@ -18,7 +18,7 @@ export const reconstructPath = async (cameFrom: any, current: any, start: any, d
         path.push(grid[y][x])
     }
     const reversed = path.slice().reverse();
-    console.log(`Path length: ${reversed.length}`)
+    // console.log(`Path length: ${reversed.length}`)
 
     let index = 0;
     for await (const r of reversed) {
