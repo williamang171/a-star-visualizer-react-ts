@@ -66,7 +66,7 @@ export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGri
     return neighbors;
 }
 
-export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number) => {
+export const updateGridWithNeighborsHexagon = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number) => {
     const newGrid = cloneDeep(grid);
     newGrid.forEach((row) => {
         row.forEach((item) => {

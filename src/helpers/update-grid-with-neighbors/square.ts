@@ -5,7 +5,7 @@ import colors from "theme/grid-item-colors";
 
 const D2 = 1.4;
 
-export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGridItem, totalRows: number, totalCols: number) {
+export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGridItem, totalRows: number, totalCols: number, allowDiagonal: boolean = true) {
     const { x, y } = gridItem;
     const n = [];
 
@@ -27,6 +27,10 @@ export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGri
     // Left
     if (x - 1 >= 0 && grid[y][x - 1].color !== colors.BARRIER) {
         n.push(grid[y][x - 1])
+    }
+
+    if (!allowDiagonal) {
+        return n;
     }
 
     // Top Left
@@ -64,11 +68,11 @@ export function identifyNeighbours(grid: Array<Array<IGridItem>>, gridItem: IGri
     return n;
 }
 
-export const updateGridWithNeighbors = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number) => {
+export const updateGridWithNeighborsSquare = (grid: Array<Array<IGridItem>>, totalRows: number, totalCols: number, allowDiagonal: boolean = true) => {
     const newGrid = cloneDeep(grid);
     newGrid.forEach((row) => {
         row.forEach((item) => {
-            item.neighbors = identifyNeighbours(grid, item, totalRows, totalCols);
+            item.neighbors = identifyNeighbours(grid, item, totalRows, totalCols, allowDiagonal);
         })
     })
     return newGrid;

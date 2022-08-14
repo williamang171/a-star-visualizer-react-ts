@@ -6,17 +6,13 @@ import Legends from 'components/Legends';
 import { IGridItem } from 'interfaces/IGridItem';
 import gridItemColors from 'theme/grid-item-colors';
 import { updateGridWithNeighbors } from 'helpers/update-grid-with-neighbors';
-import { updateGridWithNeighbors as updateGridWithNeighborsDiagonal } from 'helpers/update-grid-with-neighbors-diagonal';
-import { updateGridWithNeighbors as updateGridWithNeighborsHexagon } from 'helpers/update-grid-with-neighbors-hexagon';
 import { astar } from "algorithms/astar";
 
 import Actions from './components/Actions';
 import Grid from "./components/Grid";
-// import { data as initialData, ROWS, COLS } from "data/square-grid";
 import { initialData, ROWS, COLS } from 'data/hexagon-grid';
 
 import useAppState from './hooks/useAppState';
-import GRID_TYPE from 'constants/grid-type';
 
 const AppContainer = styled.div` 
     display: flex;
@@ -35,7 +31,9 @@ export default function MainApp() {
         setGridType,
         triggerRunPath, setTriggerRunPath,
         data,
-        setData } = useAppState();
+        setData,
+        allowDiagonal,
+        setAllowDiagonal } = useAppState();
 
     const findPath = () => {
         // Transform grid[] to grid[][] 
@@ -48,7 +46,7 @@ export default function MainApp() {
         })
 
         // Update grid with neighbors
-        const gridWithNeighbors = gridType === GRID_TYPE.HEXAGON ? updateGridWithNeighborsHexagon(grid, ROWS, COLS) : updateGridWithNeighborsDiagonal(grid, ROWS, COLS);
+        const gridWithNeighbors = updateGridWithNeighbors(grid, ROWS, COLS, gridType, allowDiagonal);
 
         // Identify start and end node
         const startNode = data.find((d) => d.color === gridItemColors.START);
@@ -62,7 +60,7 @@ export default function MainApp() {
         const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
         const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
         // Start finding the path
-        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType)
+        const pathFound = astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType, allowDiagonal)
     }
 
     const reset = () => {
@@ -113,7 +111,10 @@ export default function MainApp() {
                     reset={reset} speed={speed}
                     setSpeed={setSpeed}
                     gridType={gridType}
-                    setGridType={setGridType} />
+                    setGridType={setGridType}
+                    allowDiagonal={allowDiagonal}
+                    setAllowDiagonal={setAllowDiagonal}
+                />
                 <Legends />
                 <Grid showCost={showCost} data={data} setData={setData} gridType={gridType} />
             </div>

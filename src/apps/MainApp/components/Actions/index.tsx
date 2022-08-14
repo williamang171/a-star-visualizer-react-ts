@@ -14,10 +14,12 @@ interface Props {
     gridType: GRID_TYPE,
     setGridType: (grid_type: any) => void,
     setData: (data: any) => void,
+    allowDiagonal: boolean,
+    setAllowDiagonal: (s: boolean) => void;
 }
 
 export default function Actions(props: Props) {
-    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData } = props;
+    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData, allowDiagonal, setAllowDiagonal } = props;
 
     const handleChangeSpeed = (e: SelectChangeEvent<SPEED>) => {
         setSpeed(e.target.value);
@@ -25,6 +27,10 @@ export default function Actions(props: Props) {
 
     const handleChangeShowCost = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
         setShowCost(checked);
+    }
+
+    const handleChangeAllowDiagonal = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+        setAllowDiagonal(checked);
     }
 
     const handleChangeGridType = (e: SelectChangeEvent<GRID_TYPE>) => {
@@ -68,9 +74,13 @@ export default function Actions(props: Props) {
                 </Select>
             </FormControl>
 
-            <FormGroup>
+            {/* <FormGroup>
                 <FormControlLabel control={<Checkbox checked={showCost} onChange={handleChangeShowCost} />} label="Show Cost" />
-            </FormGroup>
+            </FormGroup> */}
+
+            {gridType === GRID_TYPE.SQUARE ? <FormGroup>
+                <FormControlLabel control={<Checkbox checked={allowDiagonal} onChange={handleChangeAllowDiagonal} />} label="Allow Diagonal" />
+            </FormGroup> : null}
 
         </Stack>
     )

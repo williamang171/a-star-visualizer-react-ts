@@ -7,7 +7,7 @@ import { svgHeight, svgWidth, gTransform, hexRadius } from "data/hexagon-grid";
 import { ROWS, COLS } from "data/hexagon-grid";
 import { useAddDragHandler } from "apps/MainApp/hooks/useAddDragHandler";
 import { IGridItem } from 'interfaces/IGridItem';
-import { identifyNeighbours } from 'helpers/update-grid-with-neighbors-hexagon';
+import { identifyNeighbours } from 'helpers/update-grid-with-neighbors/hexagon';
 
 const hexbin = d3Hexbin.hexbin().radius(hexRadius);
 

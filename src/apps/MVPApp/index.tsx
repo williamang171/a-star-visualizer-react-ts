@@ -9,6 +9,7 @@ import { generateGrid } from "apps/MVPApp/helpers/generate-grid";
 import { updateGridWithNeighbors } from "helpers/update-grid-with-neighbors";
 import { TOTAL_COLS, TOTAL_ROWS } from "apps/MVPApp/configs/grid-configs";
 import { Title, Container, Button, ButtonsContainer, AppContainer } from "apps/MVPApp/components/styled";
+import GRID_TYPE from "constants/grid-type";
 
 const g = generateGrid(TOTAL_ROWS, TOTAL_COLS)
 
@@ -46,7 +47,7 @@ function App() {
             alert("Please select a start node and an end node");
             return;
         }
-        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS);
+        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS, GRID_TYPE.SQUARE);
         const startGridItem = gridWithNeighbors[startGridItemIndex[0]][startGridItemIndex[1]];
         const endGridItem = gridWithNeighbors[endGridItemIndex[0]][endGridItemIndex[1]];
         algorithm(setGrid, gridWithNeighbors, startGridItem, endGridItem)
@@ -59,7 +60,7 @@ function App() {
     }
 
     const onNext = () => {
-        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS);
+        const gridWithNeighbors = updateGridWithNeighbors(grid, TOTAL_ROWS, TOTAL_COLS, GRID_TYPE.SQUARE);
         const startGridItem = gridWithNeighbors[startGridItemIndex[0]][startGridItemIndex[1]];
         const endGridItem = gridWithNeighbors[endGridItemIndex[0]][endGridItemIndex[1]];
         if (started) {

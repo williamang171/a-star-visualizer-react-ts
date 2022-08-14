@@ -11,6 +11,7 @@ export default function useAppState() {
     const [showCost, setShowCost] = useState(false);
     const [gridType, setGridType] = useState(GRID_TYPE.HEXAGON);
     const [triggerRunPath, setTriggerRunPath] = useState(false);
+    const [allowDiagonal, setAllowDiagonal] = useState(true);
 
     return {
         speed,
@@ -21,6 +22,8 @@ export default function useAppState() {
         setGridType,
         triggerRunPath, setTriggerRunPath,
         data,
-        setData
+        setData,
+        allowDiagonal,
+        setAllowDiagonal
     }
 }

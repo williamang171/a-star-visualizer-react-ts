@@ -8,14 +8,12 @@ import { SPEED, SPEED_AWAIT } from 'constants/speed';
 import { IGridItem } from 'interfaces/IGridItem';
 import { LooseObject } from 'interfaces/LooseObject';
 import { hCost } from 'algorithms/astar/h-cost';
-import { hCostHexagon } from './h-cost-hexagon';
-import { hCost as hCostDiagonal } from './h-cost-diagonal';
 import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
 import GRID_TYPE from 'constants/grid-type';
 
-export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE, gridType = GRID_TYPE.HEXAGON) {
+export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE, gridType = GRID_TYPE.HEXAGON, allowDiagonal: boolean = true) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
     let cameFrom: LooseObject = {}
@@ -51,7 +49,7 @@ export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: 
             if (tempGScore < nGCost) {
                 cameFrom[n.id] = current.id;
                 newGrid[ny][nx].gCost = tempGScore;
-                const hc = gridType === GRID_TYPE.HEXAGON ? hCostHexagon(n, end) : hCostDiagonal(n, end);
+                const hc = hCost(n, end, gridType, allowDiagonal)
                 // const hc = hCost(n, end)
                 newGrid[ny][nx].fCost = tempGScore + hc
                 newGrid[ny][nx].hCost = hc
