@@ -2,6 +2,8 @@
 
 An a* pathfinding visualizer written in React and TypeScript
 
+## Demo
+[https://astar-pathfinding-react-ts.netlify.app/](https://astar-pathfinding-react-ts.netlify.app/)
 
 ## Running the app
 
