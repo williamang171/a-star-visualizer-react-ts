@@ -2,7 +2,7 @@
 
 An A* pathfinding visualizer implemented with React and TypeScript
 
-https://user-images.githubusercontent.com/70843788/210366501-5d72b428-47b4-481a-901c-c6a93844ccf7.mp4
+https://github.com/williamang171/a-star-visualizer-react-ts/assets/70843788/ff8f70bb-26b2-47a0-8428-f1c0b8a9765f
 
 ## Demo
 [https://astar-pathfinding-react-ts.netlify.app/](https://astar-pathfinding-react-ts.netlify.app/)
