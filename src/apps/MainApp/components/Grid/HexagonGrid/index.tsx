@@ -118,25 +118,14 @@ export default function HexagonGrid(props: Props) {
                                 onMouseOver={handleMouseOver} />
                         })}
                     </g>
-                    {/* <rect
+
+                    <path
                         id={dragGridItem.id}
-                        key={dragGridItem.key}
-                        opacity={dragGridItem.opacity}
+                        key={dragGridItem.id}
+                        stroke={grey[500]}
+                        strokeWidth={1}
                         fill={dragGridItem.fill}
-                        width={dragGridItem.width}
-                        height={dragGridItem.height}
-                        x={dragGridItem.x}
-                        y={dragGridItem.y}
-                    /> */}
-                    {hexbin(dragGridItemPoints).map((p, i) => {
-                        return <path
-                            id={dragGridItem.id}
-                            key={dragGridItem.id}
-                            stroke={grey[500]}
-                            strokeWidth={1}
-                            fill={dragGridItem.fill}
-                            d={`M${p.x},${p.y}${hexbin.hexagon()}`} />
-                    })}
+                        d={`M${dragGridItem.x},${dragGridItem.y}${hexbin.hexagon()}`} />
                 </g>
             </svg>
         </div>
