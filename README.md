@@ -1,11 +1,17 @@
-# A* pathfinding visualizer
+# A* Pathfinding Visualizer
 
 An A* pathfinding visualizer implemented with React and TypeScript
 
-https://github.com/williamang171/a-star-visualizer-react-ts/assets/70843788/ff8f70bb-26b2-47a0-8428-f1c0b8a9765f
-
 ## Demo
 [https://astar-pathfinding-react-ts.netlify.app/](https://astar-pathfinding-react-ts.netlify.app/)
+
+## Screenshots
+
+### A* Pathfinding with Square Grid
+![a-star-example-square](/documentation/a-star-example-square.png)
+
+### A* Pathfinding with Hexagon Grid
+![a-star-example-hexagon](/documentation/a-star-example-hexagon.png)
 
 ## Running the app
 
