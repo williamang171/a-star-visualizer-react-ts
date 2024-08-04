@@ -8,10 +8,10 @@ An A* pathfinding visualizer implemented with React and TypeScript
 ## Screenshots
 
 ### A* Pathfinding with Square Grid
-![a-star-example-square](/documentation/a-star-example-square.png)
+![a-star-example-square](/documentation/example-square.png )
 
 ### A* Pathfinding with Hexagon Grid
-![a-star-example-hexagon](/documentation/a-star-example-hexagon.png)
+![a-star-example-hexagon](/documentation/example-hexagon.png)
 
 ## Running the app
 
