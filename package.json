@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@12.15.0",
   "engines": {
-    "node": ">=26"
+    "node": "26"
   },
   "dependencies": {
     "@datastructures-js/priority-queue": "^6.4.0",
