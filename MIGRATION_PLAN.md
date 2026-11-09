@@ -4,6 +4,16 @@ Phased upgrade from Create React App / React 18 / TypeScript 4.7 to Vite / pnpm 
 
 **Rule for every phase:** the app must build, run, and behave exactly as before the phase started. One phase = one branch/PR/commit. Merge only after the smoke test checklist passes.
 
+## Status
+
+All phases (0–7) are complete on branch `chore/modernize`.
+
+- Final stack: Node 26, pnpm 12, Vite 8, React 19, TypeScript 5.9, MUI 9, styled-components 6, Vitest 5, ESLint 10.
+- `pnpm audit` reports **0 vulnerabilities**.
+- TypeScript 7 was evaluated: it typechecks and builds, but `typescript-eslint` 8.72 hard-errors with `typescript-eslint does not support TS 7.0`, so the project stayed on 5.9. Revisit when typescript-eslint adds TS 7 support.
+- Manual steps completed outside the phases: removed the stale CRA `build/` output, typed all `any`s, removed dead debug helpers, and refactored `useAstarStep`'s module-level state into refs.
+- Phase 7 artifacts: `.github/workflows/ci.yml` and `netlify.toml`.
+
 ---
 
 ## Snapshot at time of writing

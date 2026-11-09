@@ -12,6 +12,7 @@
 /build
 /dist
 /.vite
+/.netlify
 
 # misc
 .DS_Store
