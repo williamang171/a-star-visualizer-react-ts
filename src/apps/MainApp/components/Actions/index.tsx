@@ -39,7 +39,7 @@ export default function Actions(props: Props) {
     }
 
     return (
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }} justifyContent="center" >
+        <Stack direction="row" spacing={1} sx={{ mb: 2, justifyContent: "center" }} >
             <Button variant="contained" onClick={findPath} type="button" disabled={disabled}>
                 Find Path
             </Button>
