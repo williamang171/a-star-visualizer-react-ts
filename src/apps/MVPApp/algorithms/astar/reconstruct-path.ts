@@ -2,9 +2,11 @@
 import cloneDeep from "lodash/cloneDeep";
 import colors from "theme/grid-item-colors";
 
+import { IGridItem } from 'interfaces/IGridItem';
 
-export const reconstructPath = (cameFrom: any, current: any, start: any, draw: any, grid: any) => {
-    let newGrid = cloneDeep(grid);
+
+export const reconstructPath = (cameFrom: Record<string, string>, current: IGridItem, start: IGridItem, draw: (grid: Array<Array<IGridItem>>) => void, grid: Array<Array<IGridItem>>) => {
+    const newGrid = cloneDeep(grid);
     let id = current.id;
     while (cameFrom[id]) {
         id = cameFrom[id];

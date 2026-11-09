@@ -6,7 +6,7 @@ import { sleep } from 'helpers/sleep';
 import { IGridItem } from "interfaces/IGridItem";
 import gridItemColors from "theme/grid-item-colors";
 
-export const reconstructPath = async (cameFrom: any, current: any, start: any, draw: any, grid: any, speed: SPEED) => {
+export const reconstructPath = async (cameFrom: Record<string, string>, current: IGridItem, start: IGridItem, draw: (grid: Array<Array<IGridItem>>) => void, grid: Array<Array<IGridItem>>, speed: SPEED) => {
     const path: Array<IGridItem> = [];
     const cachedGrid = cloneDeep(grid);
     let id = current.id;

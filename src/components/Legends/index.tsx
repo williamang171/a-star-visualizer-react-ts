@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 import gridItemColors, { colorsList } from "theme/grid-item-colors";
 
-const ColorBox = styled.span`
+const ColorBox = styled.span<{ color?: string }>`
     background: ${props => props.color || "#fff"};
     width: 12px;
     height: 12px;

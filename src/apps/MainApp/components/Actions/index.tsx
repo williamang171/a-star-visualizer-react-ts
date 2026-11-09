@@ -2,31 +2,28 @@ import React from "react";
 import { Button, Select, FormControl, InputLabel, MenuItem, Stack, Checkbox, FormGroup, FormControlLabel, SelectChangeEvent } from "@mui/material";
 import GRID_TYPE from "constants/grid-type";
 import { SPEED } from "constants/speed";
+import { IGridItem } from "interfaces/IGridItem";
 
 interface Props {
     findPath: () => void,
     reset: () => void,
     speed: SPEED,
-    setSpeed: (speed: any) => void,
+    setSpeed: (speed: SPEED) => void,
     showCost: boolean,
     setShowCost: (cost: boolean) => void,
     gridType: GRID_TYPE,
-    setGridType: (grid_type: any) => void,
-    setData: (data: any) => void,
+    setGridType: (gridType: GRID_TYPE) => void,
+    setData: (data: IGridItem[]) => void,
     allowDiagonal: boolean,
     setAllowDiagonal: (s: boolean) => void;
     disabled: boolean,
 }
 
 export default function Actions(props: Props) {
-    const { findPath, reset, speed, setSpeed, showCost, setShowCost, gridType, setGridType, setData, allowDiagonal, setAllowDiagonal, disabled } = props;
+    const { findPath, reset, speed, setSpeed, gridType, setGridType, allowDiagonal, setAllowDiagonal, disabled } = props;
 
     const handleChangeSpeed = (e: SelectChangeEvent<SPEED>) => {
         setSpeed(e.target.value);
-    }
-
-    const handleChangeShowCost = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-        setShowCost(checked);
     }
 
     const handleChangeAllowDiagonal = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -39,7 +36,7 @@ export default function Actions(props: Props) {
     }
 
     return (
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }} justifyContent="center" >
+        <Stack direction="row" spacing={1} sx={{ mb: 2, justifyContent: "center" }} >
             <Button variant="contained" onClick={findPath} type="button" disabled={disabled}>
                 Find Path
             </Button>

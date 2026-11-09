@@ -1,8 +1,8 @@
 import colors from "theme/grid-item-colors";
-import React, { useState } from 'react'
+import React from 'react'
 import styled from "styled-components";
 
-const Wrapper = styled.span`
+const Wrapper = styled.span<{ color?: string }>`
     display: inline-block;
     width: 100px;
     height: 100px;

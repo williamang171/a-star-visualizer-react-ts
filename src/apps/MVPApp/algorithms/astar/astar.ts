@@ -5,22 +5,24 @@ import cloneDeep from "lodash/cloneDeep";
 import colors from "theme/grid-item-colors";
 
 import { IGridItem } from 'interfaces/IGridItem';
-import { LooseObject } from 'interfaces/LooseObject';
 import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { hCost } from 'algorithms/astar/h-cost';
 
-export function algorithm(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem) {
+export function algorithm(setGrid: (grid: Array<Array<IGridItem>>) => void, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
-    let cameFrom: LooseObject = {}
-    let openSetHash = { [start.id]: true };
-    let newGrid = cloneDeep(grid);
+    const cameFrom: Record<string, string> = {}
+    const openSetHash = { [start.id]: true };
+    const newGrid = cloneDeep(grid);
     newGrid[start.y][start.x].fCost = 0;
     newGrid[start.y][start.x].gCost = 0;
 
     while (!q.isEmpty()) {
         const current = q.dequeue();
+        if (!current) {
+            break;
+        }
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];

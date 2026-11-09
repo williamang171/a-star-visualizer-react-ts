@@ -1,24 +1,22 @@
 import React, { useMemo } from 'react'
 import * as d3Hexbin from "d3-hexbin";
-import { pink, grey } from '@mui/material/colors';
-import flattenDeep from "lodash/flattenDeep";
+import { grey } from '@mui/material/colors';
 
 import { svgHeight, svgWidth, gTransform, hexRadius } from "data/hexagon-grid";
 import { ROWS, COLS } from "data/grid-settings";
 import { useAddDragHandler } from "apps/MainApp/hooks/useAddDragHandler";
 import { IGridItem } from 'interfaces/IGridItem';
-import { identifyNeighbours } from 'helpers/update-grid-with-neighbors/hexagon';
 
 const hexbin = d3Hexbin.hexbin().radius(hexRadius);
 
 interface Props {
     handleSvgMouseDown: () => void;
     handleSvgMouseUp: () => void;
-    handleMouseDown: (e: any) => void;
-    handleMouseOver: (e: any) => void;
+    handleMouseDown: (e: React.MouseEvent<SVGElement>) => void;
+    handleMouseOver: (e: React.MouseEvent<SVGElement>) => void;
     handleSvgMouseLeave: () => void;
     data: IGridItem[];
-    setData: (data: any) => void;
+    setData: (data: IGridItem[]) => void;
 }
 
 export default function HexagonGrid(props: Props) {
@@ -37,9 +35,9 @@ export default function HexagonGrid(props: Props) {
             }//for j
         }//for i 
         return points
-    }, [data])
+    }, [])
 
-    const computeClosestNode = (event: any) => {
+    const computeClosestNode = (event: { x: number; y: number }) => {
         let closestNode: IGridItem | null = null;
         let currentClosestRange = Infinity;
 
@@ -55,41 +53,7 @@ export default function HexagonGrid(props: Props) {
 
     const { dragGridItem } = useAddDragHandler({ data, setData, computeClosestNode: computeClosestNode })
 
-    const dragGridItemPoints: [number, number][] = useMemo(() => {
-        return [
-            [dragGridItem.x, dragGridItem.y]
-        ]
-    }, [dragGridItem])
-
-    const drawNeighbors = (event: React.MouseEvent<SVGPathElement>) => {
-        const row = event.currentTarget.attributes.getNamedItem('data-row')?.value;
-        const col = event.currentTarget.attributes.getNamedItem('data-col')?.value;
-        console.log(`Current row: ${row}, Current col: ${col}`)
-        if (!row || !col) {
-            return;
-        }
-        const currentGridItem = data.find((d) => d.x === parseInt(col) && d.y === parseInt(row));
-        if (!currentGridItem) {
-            return;
-        }
-        // Identify neighbours
-        const newGrid: Array<Array<IGridItem>> = [];
-        data.forEach((d) => {
-            if (!newGrid[d.y]) {
-                newGrid[d.y] = [];
-            }
-            newGrid[d.y].push(d)
-        })
-        const ns = identifyNeighbours(newGrid, currentGridItem, ROWS, COLS);
-        ns.forEach((n) => {
-            newGrid[n.y][n.x].color = pink[300];
-        })
-        const flatGrid = flattenDeep(newGrid);
-        // console.log(flatGrid);
-        setData(flatGrid)
-    }
-
-    const handleMouseClick = (event: React.MouseEvent<SVGPathElement>) => {
+    const handleMouseClick = () => {
         // For debugging if identify neighbors correctly
         // drawNeighbors(event);
     }

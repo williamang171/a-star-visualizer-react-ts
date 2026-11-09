@@ -1,4 +1,4 @@
-import { ReactEventHandler, useEffect } from 'react'
+import { useEffect } from 'react'
 import styled from "styled-components";
 import flattenDeep from "lodash/flattenDeep";
 
@@ -79,7 +79,7 @@ export default function MainApp() {
         const startGridItem = gridWithNeighbors[startNode.y][startNode.x];
         const endGridItem = gridWithNeighbors[endNode.y][endNode.x];
         // Start finding the path
-        const pathFound = await astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType, allowDiagonal)
+        await astar(redraw, gridWithNeighbors, startGridItem, endGridItem, speed, gridType, allowDiagonal)
         setFindingPath(false);
     }
 

@@ -18,7 +18,7 @@ export function getFillColor(x: number, y: number) {
 }
 
 export function generateData(rows: number, cols: number) {
-    let data: IGridItem[] = [];
+    const data: IGridItem[] = [];
     let xOffset = 0;
     let zOffset = 0;
     for (let y = 0; y < rows; y++) {
