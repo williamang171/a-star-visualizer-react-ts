@@ -43,8 +43,10 @@ An A* pathfinding visualizer implemented with React, TypeScript, Vite and d3.
 - Node.js **>= 26** — see `.nvmrc`
 - pnpm **12** — see the `packageManager` field in `package.json`
 
+Node 26 no longer bundles Corepack, so install pnpm globally:
+
 ```sh
-corepack enable   # or: npm install -g pnpm
+npm install -g pnpm@12
 pnpm install
 ```
 
