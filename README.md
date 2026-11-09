@@ -91,7 +91,6 @@ CI runs typecheck, lint, tests, audit and build on pushes to `main` and on pull 
 
 ## Notes
 
-- The project was migrated from Create React App to Vite; the phased migration log is in [`MIGRATION_PLAN.md`](./MIGRATION_PLAN.md).
 - TypeScript is pinned to 6.0 because `typescript-eslint` 8.x supports `>=4.8.4 <6.1.0`. TypeScript 7 is blocked until typescript-eslint adds support.
 
 ## Reference
