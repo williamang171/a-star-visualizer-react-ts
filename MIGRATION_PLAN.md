@@ -8,9 +8,9 @@ Phased upgrade from Create React App / React 18 / TypeScript 4.7 to Vite / pnpm 
 
 All phases (0–7) are complete on branch `chore/modernize`.
 
-- Final stack: Node 26, pnpm 12, Vite 8, React 19, TypeScript 5.9, MUI 9, styled-components 6, Vitest 5, ESLint 10.
+- Final stack: Node 26, pnpm 12, Vite 8, React 19, TypeScript 6.0, MUI 9, styled-components 6, Vitest 5, ESLint 10.
 - `pnpm audit` reports **0 vulnerabilities**.
-- TypeScript 7 was evaluated: it typechecks and builds, but `typescript-eslint` 8.72 hard-errors with `typescript-eslint does not support TS 7.0`, so the project stayed on 5.9. Revisit when typescript-eslint adds TS 7 support.
+- TypeScript **6.0.3** is the latest version supported by `typescript-eslint` 8.x (`>=4.8.4 <6.1.0`) and passes typecheck, lint, tests and build. TypeScript 7 was evaluated and hard-errors in typescript-eslint (`typescript-eslint does not support TS 7.0`), so it remains blocked until support lands.
 - Manual steps completed outside the phases: removed the stale CRA `build/` output, typed all `any`s, removed dead debug helpers, and refactored `useAstarStep`'s module-level state into refs.
 - Phase 7 artifacts: `.github/workflows/ci.yml` and `netlify.toml`.
 
@@ -24,7 +24,7 @@ All phases (0–7) are complete on branch `chore/modernize`.
 | Node | v26.13.0 installed, not pinned | **pinned** via `.nvmrc` + `engines` |
 | Build | `react-scripts` 5.0.1 (CRA) | **Vite 8** (`@vitejs/plugin-react` 6) |
 | React | 18.2 | **19.3** |
-| TypeScript | 4.7.4, `target: es5`, `moduleResolution: node` | **5.9 first, then 7.x** |
+| TypeScript | 4.7.4, `target: es5`, `moduleResolution: node` | **6.0.3** (7.x blocked by typescript-eslint) |
 | UI | MUI 5.9 + Emotion 11.10 | **MUI 9.5 + Emotion 11.14** |
 | Styling | styled-components 5.3 + `@types/styled-components` | **styled-components 6.6** (bundled types) |
 | Tests | Testing Library installed, **0 test files**, Jest via CRA | **Vitest 5 + Testing Library 16** |
@@ -400,7 +400,7 @@ The feature surface is small:
   pnpm add -D typescript@^7
   pnpm typecheck
   ```
-  If the ecosystem/config is not ready, revert to `~5.9.3` and note it. TS 5.9 is the stable fallback.
+  If the ecosystem/config is not ready, revert to `~6.0.3` and note it. TS 6.0 is the latest major supported by `typescript-eslint`.
 - [ ] Update the remaining libraries:
   ```bash
   pnpm up --latest
@@ -537,7 +537,7 @@ Run this at the end of **every** phase:
     "eslint-plugin-react-refresh": "latest",
     "globals": "latest",
     "jsdom": "latest",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.3",
     "typescript-eslint": "latest",
     "vite": "^8.3.6",
     "vite-tsconfig-paths": "^6.1.1",
@@ -546,7 +546,7 @@ Run this at the end of **every** phase:
 }
 ```
 
-> Use `pnpm up --latest` to resolve actual current minors; the numbers above are the versions verified during planning. Keep TS at 5.9 unless Phase 6's TS 7 trial is clean.
+> Use `pnpm up --latest` to resolve actual current minors; the numbers above are the versions verified during planning. Keep TS at 6.0 until `typescript-eslint` supports TypeScript 7.
 
 ---
 
@@ -572,7 +572,7 @@ Because `main` is never modified during the migration, deployment can always fal
 ## Suggested execution order (short version)
 
 1. Phase 0 — branch, pin Node, baseline audit + screenshots
-2. Phase 1 — Vite + TS 5.9 (biggest change; verify, then merge)
+2. Phase 1 — Vite + modern TypeScript (biggest change; verify, then merge)
 3. Phase 2 — pnpm
 4. Phase 3 — React 19
 5. Phase 4 — MUI 9 + styled-components 6

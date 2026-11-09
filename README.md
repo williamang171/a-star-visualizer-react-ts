@@ -3,7 +3,7 @@
 An A* pathfinding visualizer implemented with React, TypeScript, Vite and d3.
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
 [![MUI](https://img.shields.io/badge/MUI-9-007FFF?style=flat-square&logo=mui&logoColor=white)](https://mui.com/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D22.12-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
@@ -31,7 +31,7 @@ An A* pathfinding visualizer implemented with React, TypeScript, Vite and d3.
 | --- | --- |
 | UI | React 19, MUI 9, Emotion, styled-components 6 |
 | Build | Vite 8 |
-| Language | TypeScript 5.9 |
+| Language | TypeScript 6.0 |
 | Graphs | d3, d3-hexbin |
 | Algorithms | `@datastructures-js/priority-queue`, lodash |
 | Tests | Vitest 5, Testing Library, jsdom |
@@ -92,7 +92,7 @@ CI runs typecheck, lint, tests, audit and build on pushes to `main` and on pull 
 ## Notes
 
 - The project was migrated from Create React App to Vite; the phased migration log is in [`MIGRATION_PLAN.md`](./MIGRATION_PLAN.md).
-- TypeScript is pinned to 5.9 because `typescript-eslint` does not support TypeScript 7 yet. The upgrade is a one-line change once support lands.
+- TypeScript is pinned to 6.0 because `typescript-eslint` 8.x supports `>=4.8.4 <6.1.0`. TypeScript 7 is blocked until typescript-eslint adds support.
 
 ## Reference
 
