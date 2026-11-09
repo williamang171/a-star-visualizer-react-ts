@@ -24,6 +24,9 @@ export async function astar(setGrid: (grid: Array<Array<IGridItem>>) => void, gr
 
     while (!q.isEmpty()) {
         const current = q.dequeue();
+        if (!current) {
+            break;
+        }
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];

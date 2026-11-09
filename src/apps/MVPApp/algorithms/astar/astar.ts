@@ -20,6 +20,9 @@ export function algorithm(setGrid: (grid: Array<Array<IGridItem>>) => void, grid
 
     while (!q.isEmpty()) {
         const current = q.dequeue();
+        if (!current) {
+            break;
+        }
         const currentX = current.x;
         const currentY = current.y;
         delete openSetHash[current.id];

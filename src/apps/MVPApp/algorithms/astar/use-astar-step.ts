@@ -37,6 +37,9 @@ export function useAstarStep() {
         }
         const newGrid = cloneDeep(grid);
         const current = q.current.dequeue();
+        if (!current) {
+            return;
+        }
         console.log(`Processing ${current.id} with fCost ${current.fCost}`)
         const currentX = current.x;
         const currentY = current.y;
