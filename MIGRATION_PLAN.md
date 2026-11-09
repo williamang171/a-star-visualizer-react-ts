@@ -84,7 +84,7 @@ The feature surface is small:
 - [ ] Add to `package.json`:
   ```jsonc
   "packageManager": "pnpm@12.15.0",
-  "engines": { "node": ">=22.12" }
+  "engines": { "node": ">=26" }
   ```
 
 ### Acceptance
@@ -432,7 +432,7 @@ The feature surface is small:
 - [ ] **Netlify**
   - Build command: `pnpm build`
   - Publish directory: `dist` (or set `build.outDir: 'build'` in `vite.config.ts` to avoid changing Netlify)
-  - Ensure Node ≥ 22.12 is used (commit `.nvmrc`; set `NODE_VERSION` if needed)
+  - Ensure Node ≥ 26 is used (commit `.nvmrc`; set `NODE_VERSION` if needed)
 - [ ] **GitHub Actions** — `.github/workflows/ci.yml`:
   ```yaml
   name: CI
@@ -497,7 +497,7 @@ Run this at the end of **every** phase:
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.15.0",
-  "engines": { "node": ">=22.12" },
+  "engines": { "node": ">=26" },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
