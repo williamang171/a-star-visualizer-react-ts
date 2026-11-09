@@ -16,9 +16,9 @@ export default function Grid(props: Props) {
     const { grid = [] } = props;
 
     const rowsEls = useMemo(() => {
-        let rows = [];
+        const rows = [];
         for (let i = 0; i < grid.length; i++) {
-            let nodes = [];
+            const nodes = [];
             for (let j = 0; j < grid[i].length; j++) {
                 const gridItem = grid[i][j];
                 const { color, fCost, gCost, hCost, id, x, y } = gridItem;

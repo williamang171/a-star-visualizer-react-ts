@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "types": [
       "vite/client",
-      "jest"
+      "vitest/globals"
     ],
     "paths": {
       "*": [

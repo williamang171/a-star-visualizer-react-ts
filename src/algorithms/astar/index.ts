@@ -6,22 +6,21 @@ import colors from "theme/grid-item-colors";
 
 import { SPEED, SPEED_AWAIT } from 'constants/speed';
 import { IGridItem } from 'interfaces/IGridItem';
-import { LooseObject } from 'interfaces/LooseObject';
 import { hCost } from 'algorithms/astar/h-cost';
 import { reconstructPath } from './reconstruct-path';
 import { compare } from 'algorithms/astar/compare';
 import { sleep } from 'helpers/sleep';
 import GRID_TYPE from 'constants/grid-type';
 
-export async function astar(setGrid: any, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE, gridType = GRID_TYPE.HEXAGON, allowDiagonal: boolean = true) {
+export async function astar(setGrid: (grid: Array<Array<IGridItem>>) => void, grid: Array<Array<IGridItem>>, start: IGridItem, end: IGridItem, speed: SPEED = SPEED.IMMEDIATE, gridType = GRID_TYPE.HEXAGON, allowDiagonal: boolean = true) {
     const q = new PriorityQueue<IGridItem>(compare);
     q.enqueue(start)
-    let cameFrom: LooseObject = {}
-    let newGrid = cloneDeep(grid);
+    const cameFrom: Record<string, string> = {}
+    const newGrid = cloneDeep(grid);
     newGrid[start.y][start.x].fCost = 0;
     newGrid[start.y][start.x].gCost = 0;
 
-    let openSetHash = { [start.id]: newGrid[start.y][start.x].fCost };
+    const openSetHash = { [start.id]: newGrid[start.y][start.x].fCost };
 
     while (!q.isEmpty()) {
         const current = q.dequeue();

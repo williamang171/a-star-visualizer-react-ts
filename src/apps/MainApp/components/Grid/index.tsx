@@ -9,7 +9,7 @@ import gridItemColors from "theme/grid-item-colors";
 
 type GridProps = {
     data: IGridItem[];
-    setData: (data: any) => void;
+    setData: (data: IGridItem[]) => void;
     showCost: boolean,
     gridType: GRID_TYPE,
 };
@@ -17,15 +17,15 @@ type GridProps = {
 export const Grid = ({ data, setData, showCost, gridType }: GridProps) => {
     const [isMouseDown, setIsMouseDown] = useState(false);
 
-    const updateGridItem = (e: any) => {
-        const target = e.target;
+    const updateGridItem = (e: React.MouseEvent<SVGElement>) => {
+        const target = e.target as SVGElement;
         const currentIsBarrier = target.getAttribute('fill') === gridItemColors.BARRIER;
         const fillColor = currentIsBarrier ? gridItemColors.BLANK : gridItemColors.BARRIER;
         const newData = data.map((d) => {
             if (d.color === gridItemColors.START || d.color === gridItemColors.END) {
                 return d;
             }
-            if (d.x === parseInt(target.dataset.col) && d.y === parseInt(target.dataset.row)) {
+            if (d.x === parseInt(target.dataset.col ?? '', 10) && d.y === parseInt(target.dataset.row ?? '', 10)) {
                 return {
                     ...d,
                     color: fillColor,
@@ -51,11 +51,11 @@ export const Grid = ({ data, setData, showCost, gridType }: GridProps) => {
         setIsMouseDown(false);
     }
 
-    const handleMouseDown = (e: any) => {
+    const handleMouseDown = (e: React.MouseEvent<SVGElement>) => {
         updateGridItem(e);
     }
 
-    const handleMouseOver = (e: any,) => {
+    const handleMouseOver = (e: React.MouseEvent<SVGElement>) => {
         if (!isMouseDown) {
             return;
         }

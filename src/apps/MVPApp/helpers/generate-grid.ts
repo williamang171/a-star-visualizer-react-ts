@@ -1,9 +1,9 @@
 import { IGridItem } from "interfaces/IGridItem";
 
 export const generateGrid = (rows: number, cols: number) => {
-    let grid = [];
+    const grid: Array<Array<IGridItem>> = [];
     for (let i = 0; i < rows; i++) {
-        let elements: Array<IGridItem> = [];
+        const elements: Array<IGridItem> = [];
         for (let j = 0; j < cols; j++) {
             elements.push({
                 x: j,

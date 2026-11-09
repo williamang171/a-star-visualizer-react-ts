@@ -18,8 +18,8 @@ const initialDragGridItem = {
 
 interface Props {
     data: IGridItem[];
-    setData: (data: any) => void;
-    computeClosestNode: (event: any) => IGridItem | null;
+    setData: (data: IGridItem[]) => void;
+    computeClosestNode: (event: { x: number; y: number }) => IGridItem | null;
 }
 
 export function useAddDragHandler({ data, setData, computeClosestNode }: Props) {
